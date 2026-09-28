@@ -22,7 +22,12 @@ export const metadata: Metadata = {
   title: "Bright Bal Public School | Agra",
   description:
     "Official website of Bright Bal Public School, Agra. English Medium School providing quality education from Nursery to Class VIII.",
+
+    verification: {
+    google: "utEk0r5EWqFTZfF3rYowmYa5mOP3OxvRhhj3fOh59To",
+  },
 };
+ 
 
 export default async function RootLayout({
   children,
