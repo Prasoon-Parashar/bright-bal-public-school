@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "Official website of Bright Bal Public School, Agra. English Medium School providing quality education from Nursery to Class VIII.",
 
     verification: {
-    google: "utEk0r5EWqFTZfF3rYowmYa5mOP3OxvRhhj3fOh59To",
+    google: "utEk0r5EWqFTZfF3rYowmYa5mOP3OxvRhhj3fOh59To"
   },
 };
  
