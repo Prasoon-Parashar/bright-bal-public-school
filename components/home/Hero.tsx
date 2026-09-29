@@ -8,9 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   ArrowRight,
   GraduationCap,
-  Users,
-  BookOpen,
-  HeartHandshake,
+
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
@@ -54,14 +52,6 @@ export default function Hero() {
       }));
     }
   }
-
-  const stats = [
-  { value: "500+", label: "Students", icon: Users },
-  { value: "20+", label: "Teachers", icon: GraduationCap },
-  { value: "25+", label: "Years of Excellence", icon: BookOpen },
-  { value: "Nursery - VIII", label: "Classes", icon: HeartHandshake },
-];
-
   return (
     <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(254,226,226,0.95),_rgba(255,255,255,0.98)_28%,_rgba(255,255,255,1)_100%)] pt-20">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -213,42 +203,6 @@ export default function Hero() {
               </div>
             </div>
           </motion.div>
-        </motion.div>
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="grid overflow-hidden rounded-[2rem] border border-slate-200 bg-white/85 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur-sm sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {stats.map((item, index) => {
-            const Icon = item.icon;
-
-            return (
-              <div
-  key={item.label}
-  className={`group flex min-w-0 items-center gap-3 p-4 transition duration-300 hover:bg-red-50 sm:gap-4 sm:p-6 ${
-    index !== stats.length - 1 ? "lg:border-r lg:border-slate-200" : ""
-  }`}
->
-  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition group-hover:bg-red-700 group-hover:text-white">
-    <Icon size={24} />
-  </div>
-
-  <div className="min-w-0 flex-1 overflow-hidden">
-   <h3 className="break-words text-2xl font-extrabold leading-tight text-slate-900 sm:text-3xl">
-  {item.value}
-</h3>
-
-    <p className="mt-1 break-words text-sm leading-5 text-slate-500">
-      {item.label}
-    </p>
-  </div>
-</div>
-            );
-          })}
         </motion.div>
       </div>
     </section>
