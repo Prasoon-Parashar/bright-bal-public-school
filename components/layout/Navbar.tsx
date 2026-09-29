@@ -53,11 +53,14 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-red-100 bg-white/95 shadow-lg backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-5 lg:px-8">
 
-        {/* ---------- LOGO ---------- */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-red-200 bg-white shadow-sm">
+        {/* ---------- LOGO + SCHOOL NAME ---------- */}
+        <Link
+          href="/"
+          className="flex min-w-0 items-center gap-2.5 sm:gap-3"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-red-200 bg-white shadow-sm sm:h-14 sm:w-14">
             <Image
               src={
                 school.logo_url && school.logo_url !== ""
@@ -73,16 +76,15 @@ export default function Navbar() {
             />
           </div>
 
-          <div className="hidden sm:block">
-           <div className="min-w-0">
-  <h1 className="whitespace-nowrap text-xl font-extrabold leading-none text-red-700 lg:text-2xl">
-    {school.school_name}
-  </h1>
+          {/* SCHOOL NAME - NOW VISIBLE ON MOBILE */}
+          <div className="min-w-0">
+            <h1 className="whitespace-nowrap text-base font-extrabold leading-tight text-red-700 sm:text-xl lg:text-2xl">
+              {school.school_name}
+            </h1>
 
-  <p className="mt-1 text-sm font-medium text-slate-600">
-    {school.tagline}
-  </p>
-</div>
+            <p className="mt-0.5 text-[11px] font-medium text-slate-600 sm:mt-1 sm:text-sm">
+              {school.tagline}
+            </p>
           </div>
         </Link>
 
@@ -132,7 +134,7 @@ export default function Navbar() {
         {/* ---------- MOBILE BUTTON ---------- */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-lg p-2 text-slate-700 hover:bg-red-50 md:hidden"
+          className="ml-2 shrink-0 rounded-lg p-2 text-slate-700 hover:bg-red-50 md:hidden"
           aria-label="Toggle navigation"
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}

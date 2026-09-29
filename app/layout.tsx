@@ -18,13 +18,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Bright Bal Public School | Agra",
+export const metadata = {
+  title: "Bright Bal Public School | English Medium School, Agra",
   description:
-    "Official website of Bright Bal Public School, Agra. English Medium School providing quality education from Nursery to Class VIII.",
+    "Bright Bal Public School is an English Medium School in Agra providing quality education from Nursery to Class VIII with discipline, values and holistic development.",
 
-    verification: {
-    google: "utEk0r5EWqFTZfF3rYowmYa5mOP3OxvRhhj3fOh59To"
+  openGraph: {
+    title: "Bright Bal Public School",
+    description:
+      "Admissions Open. English Medium School in Agra from Nursery to Class VIII.",
+    images: ["/images/school-building.jpg.jpeg"],
+  },
+
+  verification: {
+    google: "YOUR_GOOGLE_VERIFICATION_CODE",
   },
 };
  
