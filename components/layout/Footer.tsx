@@ -240,13 +240,6 @@ export default function Footer() {
             © {new Date().getFullYear()} {school.school_name}. All Rights Reserved.
           </p>
 
-          <p className="text-center text-gray-500">
-            Designed & Developed by{" "}
-            <span className="font-semibold text-red-500">
-              Prasoon Parashar
-            </span>
-          </p>
-
         </div>
       </div>
     </footer>
