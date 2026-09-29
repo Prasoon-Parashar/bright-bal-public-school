@@ -49,8 +49,8 @@ export default function PrincipalMessage() {
               {/* Image */}
               <div className="relative h-[520px] w-full">
                 <Image
-                  src="/images/radha_didi.jpg.jpeg"
-                  alt="Principal Nidhi Parashar"
+                  src="public/images/principal-swati.jpeg"
+                  alt="Principal Swati Shukla"
                   fill
                   className="object-cover"
                 />
@@ -67,7 +67,7 @@ export default function PrincipalMessage() {
               {/* Principal Info BELOW IMAGE */}
               <div className="bg-white px-6 py-6 text-center">
                 <h3 className="text-3xl font-extrabold text-slate-900">
-                  Nidhi Parashar
+                  Swati Shukla
                 </h3>
 
                 <p className="mt-2 text-lg font-semibold text-red-700">
