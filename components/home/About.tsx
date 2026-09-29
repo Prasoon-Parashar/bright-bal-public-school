@@ -119,18 +119,23 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="absolute -bottom-8 right-5 rounded-2xl border border-slate-100 bg-white/90 p-4 shadow-2xl backdrop-blur-md">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-700">
-                    <GraduationCap size={24} />
-                  </div>
+             <div className="absolute right-5 top-5 z-20 rounded-2xl border border-slate-100 bg-white/95 p-3 shadow-2xl backdrop-blur-md sm:right-6 sm:top-6 sm:p-4">
+  <div className="flex items-center gap-3 sm:gap-4">
+    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700 sm:h-12 sm:w-12 sm:rounded-2xl">
+      <GraduationCap size={22} />
+    </div>
 
-                  <div>
-                    <p className="text-lg font-black text-slate-900">Nursery to VIII</p>
-                    <p className="text-sm text-slate-500">English Medium School</p>
-                  </div>
-                </div>
-              </div>
+    <div>
+      <p className="text-base font-black leading-tight text-slate-900 sm:text-lg">
+        Nursery to VIII
+      </p>
+
+      <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+        English Medium School
+      </p>
+    </div>
+  </div>
+</div>
             </div>
 
             <div className="relative">

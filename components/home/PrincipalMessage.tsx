@@ -49,7 +49,7 @@ export default function PrincipalMessage() {
               {/* Image */}
               <div className="relative h-[520px] w-full">
                 <Image
-                  src="public/images/principal-swati.jpeg"
+                  src="images/principal-swati.jpeg"
                   alt="Principal Swati Shukla"
                   fill
                   className="object-cover"
