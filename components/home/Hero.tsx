@@ -186,23 +186,25 @@ export default function Hero() {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="absolute -bottom-8 left-4 rounded-2xl border border-slate-100 bg-white/90 p-5 shadow-2xl backdrop-blur-md sm:-left-7"
-          >
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-700">
-                <GraduationCap size={26} />
-              </div>
+<motion.div
+  initial={{ opacity: 0, y: 25 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.6 }}
+  className="absolute bottom-6 right-6 z-20 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl sm:bottom-8 sm:right-8 sm:p-5"
+>
+  <div className="flex items-center gap-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-700">
+      <GraduationCap size={26} />
+    </div>
 
-              <div>
-                <p className="text-sm text-slate-500">Session</p>
-                <p className="font-bold text-slate-900">{school.admission_session}</p>
-              </div>
-            </div>
-          </motion.div>
+    <div>
+      <p className="text-sm text-slate-500">Session</p>
+      <p className="font-bold text-slate-900">
+        {school.admission_session}
+      </p>
+    </div>
+  </div>
+</motion.div>
         </motion.div>
       </div>
     </section>
