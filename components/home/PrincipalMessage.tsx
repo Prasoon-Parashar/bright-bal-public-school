@@ -48,12 +48,12 @@ export default function PrincipalMessage() {
 
               {/* Image */}
               <div className="relative h-[520px] w-full">
-                <Image
-                  src="images/principal-swati.jpeg"
-                  alt="Principal Swati Shukla"
-                  fill
-                  className="object-cover"
-                />
+               <Image
+  src="/images/principal-swati.jpeg"
+  alt="Principal"
+  fill
+  className="object-cover"
+/>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
