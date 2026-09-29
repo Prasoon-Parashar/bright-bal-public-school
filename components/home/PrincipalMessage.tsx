@@ -47,25 +47,16 @@ export default function PrincipalMessage() {
             <div className="overflow-hidden rounded-[2rem] border-4 border-white bg-white shadow-2xl">
 
               {/* Image */}
-              <div className="h-full w-full object-cover object-top">
-               <Image
-  src="/images/principal-swati.jpeg"
-  alt="Principal"
-  fill
-  className="object-cover"
-/>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-                {/* Badge */}
-                <div className="absolute bottom-5 left-5 z-20 rounded-full border border-white/70 bg-white/95 px-4 py-2 shadow-lg backdrop-blur-md sm:bottom-6 sm:left-6">
-                  <div className="flex items-center gap-2"></div>
-                  <GraduationCap size={14}
-                   className="text-red-600" />
-                   <span className="text-sm font-bold text-red-700">
-      School Leadership
-    </span>
-  </div>
+             {/* Image */}
+<div className="relative w-full overflow-hidden bg-slate-50">
+  <Image
+    src="/images/principal-swati.jpeg"
+    alt="Swati Shukla, Principal"
+    width={836}
+    height={1536}
+    priority
+    className="block h-auto w-full object-contain"
+  />
 </div>
 
               {/* Principal Info BELOW IMAGE */}
@@ -90,7 +81,7 @@ export default function PrincipalMessage() {
             </div>
 
             {/* Floating Card */}
-            <div className="absolute -bottom-6 left-1/2 w-[260px] -translate-x-1/2 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl">
+            <div className="absolute -bottom-8 left-1/2 z-10 w-[260px] -translate-x-1/2 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl sm:-bottom-8">
               <div className="flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-red-700">
                   <Heart size={22} />
