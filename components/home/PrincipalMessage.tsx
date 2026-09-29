@@ -47,7 +47,7 @@ export default function PrincipalMessage() {
             <div className="overflow-hidden rounded-[2rem] border-4 border-white bg-white shadow-2xl">
 
               {/* Image */}
-              <div className="relative h-[520px] w-full">
+              <div className="h-full w-full object-cover object-top">
                <Image
   src="/images/principal-swati.jpeg"
   alt="Principal"
@@ -58,11 +58,15 @@ export default function PrincipalMessage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
                 {/* Badge */}
-                <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-bold text-red-700 shadow-lg backdrop-blur">
-                  <GraduationCap size={14} />
-                  School Leadership
-                </div>
-              </div>
+                <div className="absolute bottom-5 left-5 z-20 rounded-full border border-white/70 bg-white/95 px-4 py-2 shadow-lg backdrop-blur-md sm:bottom-6 sm:left-6">
+                  <div className="flex items-center gap-2"></div>
+                  <GraduationCap size={14}
+                   className="text-red-600" />
+                   <span className="text-sm font-bold text-red-700">
+      School Leadership
+    </span>
+  </div>
+</div>
 
               {/* Principal Info BELOW IMAGE */}
               <div className="bg-white px-6 py-6 text-center">
