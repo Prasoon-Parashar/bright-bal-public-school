@@ -56,11 +56,11 @@ export default function Hero() {
   }
 
   const stats = [
-    { value: "500+", label: "Students", icon: Users },
-    { value: "20+", label: "Teachers", icon: GraduationCap },
-    { value: "15+", label: "Years of Excellence", icon: BookOpen },
-    { value: "100%", label: "Care & Discipline", icon: HeartHandshake },
-  ];
+  { value: "500+", label: "Students", icon: Users },
+  { value: "20+", label: "Teachers", icon: GraduationCap },
+  { value: "25+", label: "Years of Excellence", icon: BookOpen },
+  { value: "Nursery - VIII", label: "Classes", icon: HeartHandshake },
+];
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(254,226,226,0.95),_rgba(255,255,255,0.98)_28%,_rgba(255,255,255,1)_100%)] pt-20">
@@ -97,21 +97,27 @@ export default function Hero() {
             Welcome to <span className="font-bold text-red-700">{school.school_name}</span>, {school.hero_subtitle}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
-            {[
-              "English Medium",
-              "Nursery to Class VIII",
-              "Holistic Development",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm"
-              >
-                <CheckCircle2 size={18} className="text-red-600" />
-                {item}
-              </div>
-            ))}
-          </div>
+         <div className="mt-8 w-full space-y-3">
+  {[
+    "English Medium",
+    "Nursery to Class VIII",
+    "Holistic Development",
+  ].map((item) => (
+    <div
+      key={item}
+      className="box-border flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-xs font-semibold leading-5 text-slate-700 shadow-sm sm:w-fit sm:text-sm"
+    >
+      <CheckCircle2
+        size={18}
+        className="shrink-0 flex-none text-red-600"
+      />
+
+      <span className="min-w-0 flex-1 break-words whitespace-normal">
+        {item}
+      </span>
+    </div>
+  ))}
+</div>
 
           <div className="mt-10 flex flex-wrap gap-4">
             {school.admission_open ? (
@@ -222,20 +228,25 @@ export default function Hero() {
 
             return (
               <div
-                key={item.label}
-                className={`group flex items-center gap-4 p-6 transition duration-300 hover:bg-red-50 ${
-                  index !== stats.length - 1 ? "lg:border-r lg:border-slate-200" : ""
-                }`}
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition group-hover:bg-red-700 group-hover:text-white">
-                  <Icon size={24} />
-                </div>
+  key={item.label}
+  className={`group flex min-w-0 items-center gap-3 p-4 transition duration-300 hover:bg-red-50 sm:gap-4 sm:p-6 ${
+    index !== stats.length - 1 ? "lg:border-r lg:border-slate-200" : ""
+  }`}
+>
+  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition group-hover:bg-red-700 group-hover:text-white">
+    <Icon size={24} />
+  </div>
 
-                <div>
-                  <h3 className="text-3xl font-extrabold text-slate-900">{item.value}</h3>
-                  <p className="text-sm text-slate-500">{item.label}</p>
-                </div>
-              </div>
+  <div className="min-w-0 flex-1 overflow-hidden">
+   <h3 className="break-words text-2xl font-extrabold leading-tight text-slate-900 sm:text-3xl">
+  {item.value}
+</h3>
+
+    <p className="mt-1 break-words text-sm leading-5 text-slate-500">
+      {item.label}
+    </p>
+  </div>
+</div>
             );
           })}
         </motion.div>
