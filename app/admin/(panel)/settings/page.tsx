@@ -239,65 +239,98 @@ async function resetSettings() {
   });
 }
 
-  async function saveSettings() {
-    if (!settingsId || saving) return;
+ async function saveSettings() {
+  if (!settingsId || saving) return;
 
-    setSaving(true);
-    setMessage(null);
+  setSaving(true);
+  setMessage(null);
 
-    const { error } = await supabase
+  try {
+    const { data, error } = await supabase
       .from("school_settings")
       .update({
-
+        principal_photo_url: settings.principalPhotoUrl,
 
         about_title: settings.aboutTitle,
-about_subtitle: settings.aboutSubtitle,
-about_description: settings.aboutDescription,
-about_image: settings.aboutImage,
-  school_name: settings.schoolName,
-  tagline: settings.tagline,
-  principal_name: settings.principal,
-  motto: settings.motto,
-  udise_no: settings.udise,
-  affiliation_no: settings.affiliation,
+        about_subtitle: settings.aboutSubtitle,
+        about_description: settings.aboutDescription,
+        about_image: settings.aboutImage,
 
-  phone: settings.phone,
-  alternate_phone: settings.alternatePhone,
-  whatsapp: settings.whatsapp,
-  email: settings.email,
-  website: settings.website,
-  address: settings.address,
-  map_url: settings.mapUrl,
+        school_name: settings.schoolName,
+        tagline: settings.tagline,
+        principal_name: settings.principal,
+        motto: settings.motto,
+        udise_no: settings.udise,
+        affiliation_no: settings.affiliation,
 
-  facebook: settings.facebook,
-  instagram: settings.instagram,
-  youtube: settings.youtube,
+        phone: settings.phone,
+        alternate_phone: settings.alternatePhone,
+        whatsapp: settings.whatsapp,
+        email: settings.email,
+        website: settings.website,
+        address: settings.address,
+        map_url: settings.mapUrl,
 
-  logo_url: settings.logoUrl,
-  favicon_url: settings.faviconUrl,
-  principal_photo_url: settings.principalPhotoUrl,
+        facebook: settings.facebook,
+        instagram: settings.instagram,
+        youtube: settings.youtube,
 
-  admission_open: settings.admissionOpen,
-  admission_session: settings.admissionSession,
-  admission_last_date: settings.admissionLastDate,
-  admission_banner: settings.admissionBanner,
+        logo_url: settings.logoUrl,
+        favicon_url: settings.faviconUrl,
 
-  hero_title: settings.heroTitle,
-  hero_subtitle: settings.heroSubtitle,
-  principal_message: settings.principalMessage,
+        admission_open: settings.admissionOpen,
+        admission_session: settings.admissionSession,
+        admission_last_date: settings.admissionLastDate,
+        admission_banner: settings.admissionBanner,
 
-  maintenance_mode: settings.maintenanceMode,
-  maintenance_message: settings.maintenanceMessage,
-})
-      .eq("id", settingsId);
+        hero_title: settings.heroTitle,
+        hero_subtitle: settings.heroSubtitle,
+        principal_message: settings.principalMessage,
+
+        maintenance_mode: settings.maintenanceMode,
+        maintenance_message: settings.maintenanceMessage,
+      })
+      .eq("id", settingsId)
+      .select()
+      .single();
 
     if (error) {
-      setMessage({ type: "error", text: error.message || "Error saving settings." });
-    } else {
-      setMessage({ type: "success", text: "Settings saved successfully." });
+      console.error("SAVE SETTINGS ERROR:", error);
+
+      setMessage({
+        type: "error",
+        text: error.message,
+      });
+
+      return;
     }
+
+    if (!data) {
+      setMessage({
+        type: "error",
+        text: "Settings update failed. No row was updated.",
+      });
+
+      return;
+    }
+
+    setMessage({
+      type: "success",
+      text: "Settings saved successfully.",
+    });
+
+  } catch (err) {
+    console.error("SETTINGS SAVE ERROR:", err);
+
+    setMessage({
+      type: "error",
+      text: "Something went wrong while saving settings.",
+    });
+
+  } finally {
     setSaving(false);
   }
+}
 
   return (
     

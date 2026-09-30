@@ -26,9 +26,9 @@ export default function Footer() {
   const [school, setSchool] = useState<SchoolSettings>({
     school_name: "Bright Bal Public School",
     tagline: "English Medium School",
-    address: "18/162 M.P. Pura, Tajganj, Agra - 282001",
-    phone: "",
-    email: "",
+    address: "Baldev Nagar, Gobar Chowki, Agra",
+phone: "+91 9997157985",
+email: "brightbalp@gmail.com",
     website: "",
     logo_url: "",
     facebook: "",
