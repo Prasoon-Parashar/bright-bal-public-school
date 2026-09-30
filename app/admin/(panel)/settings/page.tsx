@@ -137,12 +137,13 @@ aboutImage: "",
     setLoading(true);
     setMessage(null);
 
-    const { data, error } = await supabase
+const { data: rows, error } = await supabase
   .from("school_settings")
   .select("*")
   .order("id", { ascending: true })
-  .range(0, 0)
-  .maybeSingle();
+  .limit(1);
+
+const data = rows?.[0] ?? null;
 
     if (error || !data) {
       setMessage({
