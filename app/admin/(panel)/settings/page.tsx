@@ -72,7 +72,6 @@ aboutImage: "",
   // Images
   logoUrl: "",
   faviconUrl: "",
-  principalPhotoUrl: "",
 
   // Admission
   admissionOpen: true,
@@ -152,7 +151,6 @@ aboutImage: "",
   // Images
   logoUrl: data.logo_url || "",
   faviconUrl: data.favicon_url || "",
-  principalPhotoUrl: data.principal_photo_url || "",
 
   // Admission
   admissionOpen: data.admission_open ?? true,
@@ -205,7 +203,6 @@ async function resetSettings() {
 
     logo_url: "/logo/logo.png",
     favicon_url: "",
-    principal_photo_url: "",
 
     about_title: "Building Strong Foundations for a Brighter Future",
     about_subtitle: "Welcome to Bright Bal Public School",
@@ -249,7 +246,6 @@ async function resetSettings() {
     const { data, error } = await supabase
       .from("school_settings")
       .update({
-        principal_photo_url: settings.principalPhotoUrl,
 
         about_title: settings.aboutTitle,
         about_subtitle: settings.aboutSubtitle,
@@ -333,10 +329,7 @@ async function resetSettings() {
 }
 
   return (
-    
-  
     <div className="space-y-8 pb-28">
-
       {message && (
         <div
           role="status"
@@ -350,641 +343,509 @@ async function resetSettings() {
         </div>
       )}
 
-    {/* Hero */}
-<div className="relative isolate overflow-hidden rounded-[32px] bg-gradient-to-r from-[#020617] via-[#450A0A] to-[#DC2626] p-8 text-white shadow-[0_25px_70px_rgba(127,29,29,0.45)]">
-
-  {/* Background Glow */}
-  <div className="absolute -top-24 -left-16 h-72 w-72 rounded-full bg-red-500/30 blur-3xl" />
-  <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-red-700/20 blur-3xl" />
-  <div className="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-orange-500/20 blur-3xl" />
-
-  <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-
-    {/* Left Side */}
-    <div className="max-w-3xl">
-      <p className="text-xs font-bold uppercase tracking-[0.35em] text-red-200">
-        Bright Bal Admin Portal
-      </p>
-
-      <h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-        Bright Bal Public School
-      </h1>
-
-      <p className="mt-5 max-w-2xl text-lg leading-8 text-red-100">
-        Manage school branding, admissions, notices, gallery, contact details
-        and every website setting from one beautiful dashboard.
-      </p>
-
-      <div className="mt-8 flex flex-wrap gap-3">
-
-        <div className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur">
-          🎓 Admin Control Center
-        </div>
-
-        <div className="rounded-full border border-red-300/20 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 backdrop-blur">
-          Session 2027–28
-        </div>
-
-      </div>
-    </div>
-
-    {/* Right Side Status Card */}
-    <div className="w-full max-w-xs rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
-
-      <p className="text-xs font-bold uppercase tracking-[0.25em] text-red-200">
-        Live Status
-      </p>
-
-      <div className="mt-4 flex items-center gap-3">
-        <span className="h-3 w-3 rounded-full bg-emerald-400 animate-pulse" />
-        <span className="text-lg font-bold">Website Active</span>
-      </div>
-
-      <div className="mt-6 space-y-4 text-sm">
-
-        <div className="flex items-center justify-between border-b border-white/10 pb-2">
-          <span className="text-red-100">Workspace</span>
-          <span className="font-bold">Settings</span>
-        </div>
-
-        <div className="flex items-center justify-between border-b border-white/10 pb-2">
-          <span className="text-red-100">Theme</span>
-          <span className="font-bold">Bright Bal Red</span>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <span className="text-red-100">Portal</span>
-          <span className="font-bold text-emerald-300">LIVE</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
-     {/* ================= SCHOOL INFORMATION ================= */}
-
-<Card
-  title="School Information"
-  icon={<School className="text-red-600" />}
->
-  <div className="grid gap-5 md:grid-cols-2">
-    <Input
-      label="School Name"
-      value={settings.schoolName}
-      onChange={(v) => updateField("schoolName", v)}
-      placeholder="Bright Bal Public School"
-    />
-
-    <Input
-      label="Tagline"
-      value={settings.tagline}
-      onChange={(v) => updateField("tagline", v)}
-      placeholder="English Medium School"
-    />
-
-    <Input
-      label="Principal Name"
-      value={settings.principal}
-      onChange={(v) => updateField("principal", v)}
-      placeholder="Principal Name"
-    />
-
-    <Input
-      label="School Motto"
-      value={settings.motto}
-      onChange={(v) => updateField("motto", v)}
-      placeholder="Learn • Grow • Shine"
-    />
-
-    <Input
-      label="UDISE Number"
-      value={settings.udise}
-      onChange={(v) => updateField("udise", v)}
-      placeholder="Enter UDISE Number"
-    />
-
-    <Input
-      label="Affiliation Number"
-      value={settings.affiliation}
-      onChange={(v) => updateField("affiliation", v)}
-      placeholder="Enter Affiliation Number"
-    />
-
-    <div className="md:col-span-2 grid gap-6 lg:grid-cols-2">
-
-  {/* Logo Upload */}
-  <div className="rounded-3xl border bg-red-50 p-6 text-center">
-
-    <label className="block text-sm font-bold text-red-700">
-      School Logo
-    </label>
-
-    <div className="mt-4 flex justify-center">
-      <img
-        src={settings.logoUrl || "/logo/logo.png"}
-        className="h-28 w-28 rounded-full border-4 border-white shadow-lg object-cover"
-      />
-    </div>
-
-    <label className="mt-5 inline-flex cursor-pointer rounded-xl bg-red-600 px-5 py-3 font-bold text-white hover:bg-red-700">
-      Upload Logo
-
-      <input
-        type="file"
-        hidden
-        accept="image/*"
-        onChange={(e)=>{
-          if(e.target.files?.[0]){
-            handleLogoUpload(e.target.files[0])
-          }
-        }}
-      />
-    </label>
-
-  </div>
-
-  {/* Principal Photo */}
-  <div className="rounded-3xl border bg-orange-50 p-6 text-center">
-
-    <label className="block text-sm font-bold text-orange-700">
-      Principal Photo
-    </label>
-
-    <div className="mt-4 flex justify-center">
-      {settings.principalPhotoUrl ? (
-        <img
-          src={settings.principalPhotoUrl}
-          className="h-36 w-36 rounded-full border-4 border-white shadow-lg object-cover"
-        />
-      ) : (
-        <div className="flex h-36 w-36 items-center justify-center rounded-full bg-white shadow">
-          <GraduationCap className="h-12 w-12 text-orange-500"/>
-        </div>
-      )}
-    </div>
-
-    <input
-      value={settings.principalPhotoUrl}
-      onChange={(e)=>updateField("principalPhotoUrl",e.target.value)}
-      placeholder="Paste Principal Image URL"
-      className="mt-5 w-full rounded-xl border p-3"
-    />
-
-  </div>
-</div>
-  </div>
-</Card>
-
-     {/* ================= CONTACT INFORMATION ================= */}
-
-<Card
-  title="Contact Information"
-  icon={<Phone className="text-green-600" />}
->
-  <div className="grid gap-5 md:grid-cols-2">
-    <Input
-      label="Primary Phone"
-      value={settings.phone}
-      onChange={(v) => updateField("phone", v)}
-      placeholder="+91 9997157985"
-    />
-
-    <Input
-      label="Alternate Phone"
-      value={settings.alternatePhone}
-      onChange={(v) => updateField("alternatePhone", v)}
-      placeholder="+91 9876543210"
-    />
-
-    <Input
-      label="WhatsApp Number"
-      value={settings.whatsapp}
-      onChange={(v) => updateField("whatsapp", v)}
-      placeholder="+91 9997157985"
-    />
-
-    <Input
-      label="Email Address"
-      value={settings.email}
-      onChange={(v) => updateField("email", v)}
-      placeholder="brightbalp@gmail.com"
-    />
-
-    <Input
-      label="Website URL"
-      value={settings.website}
-      onChange={(v) => updateField("website", v)}
-      placeholder="www.brightbalpublicschool.in"
-    />
-
-    <Input
-      label="Google Maps URL"
-      value={settings.mapUrl}
-      onChange={(v) => updateField("mapUrl", v)}
-      placeholder="Paste Google Maps Link"
-    />
-
-    <div className="md:col-span-2 space-y-2">
-      <label className="text-sm font-bold text-slate-700">
-        School Address
-      </label>
-
-      <textarea
-        rows={4}
-        value={settings.address}
-        onChange={(e) => updateField("address", e.target.value)}
-        placeholder="18/162 M.P. Pura, Tajganj, Agra - 282001"
-        className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-red-600 focus:ring-4 focus:ring-red-100"
-      />
-    </div>
-  </div>
-
-  <div className="mt-8 border-t pt-8">
-    <h3 className="mb-5 text-lg font-bold text-slate-800">
-      Social Media Links
-    </h3>
-
-    <div className="grid gap-5 md:grid-cols-3">
-      <Input
-        label="Facebook URL"
-        value={settings.facebook}
-        onChange={(v) => updateField("facebook", v)}
-        placeholder="https://facebook.com/..."
-      />
-
-      <Input
-        label="Instagram URL"
-        value={settings.instagram}
-        onChange={(v) => updateField("instagram", v)}
-        placeholder="https://instagram.com/..."
-      />
-
-      <Input
-        label="YouTube URL"
-        value={settings.youtube}
-        onChange={(v) => updateField("youtube", v)}
-        placeholder="https://youtube.com/..."
-      />
-    </div>
-  </div>
-</Card>
-
-<Card title="About Section" icon={<School className="text-red-600" />}>
-  <div className="grid gap-6 lg:grid-cols-2">
-
-  <div className="space-y-5">
-
-    <Input
-      label="About Heading"
-      value={settings.aboutTitle}
-      onChange={(v)=>updateField("aboutTitle",v)}
-    />
-
-    <Input
-      label="About Subtitle"
-      value={settings.aboutSubtitle}
-      onChange={(v)=>updateField("aboutSubtitle",v)}
-    />
-
-    <Input
-      label="About Image URL"
-      value={settings.aboutImage}
-      onChange={(v)=>updateField("aboutImage",v)}
-    />
-
-  </div>
-
-  <div className="rounded-3xl border bg-slate-50 p-5">
-
-    <label className="text-sm font-bold">
-      About Description
-    </label>
-
-    <textarea
-      rows={11}
-      value={settings.aboutDescription}
-      onChange={(e)=>updateField("aboutDescription",e.target.value)}
-      className="mt-3 w-full rounded-2xl border p-4 outline-none"
-    />
-  </div>
-
-{settings.aboutImage && (
-  <img
-    src={settings.aboutImage}
-    className="mt-6 h-72 w-full rounded-3xl object-cover shadow-xl"
-  />
-)}
-    <div className="space-y-3">
-  <label className="text-sm font-bold text-slate-700">
-    Principal Photo URL
-  </label>
-
-  <input
-    value={settings.principalPhotoUrl}
-    onChange={(e) =>
-      updateField("principalPhotoUrl", e.target.value)
-    }
-    placeholder="Paste Supabase image URL"
-    className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-red-600 focus:ring-4 focus:ring-red-100"
-  />
-
-  {settings.principalPhotoUrl && (
-    <img
-      src={settings.principalPhotoUrl}
-      alt="Principal Preview"
-      className="h-64 w-full rounded-2xl object-cover"
-    />
-  )}
-</div>
-
-  </div>
-</Card>
-
-<Card title="Live Website Preview" icon={<Sparkles className="text-yellow-600"/>}>
-
-<div className="rounded-[28px] border bg-gradient-to-br from-red-50 to-white p-6">
-
-  <div className="overflow-hidden rounded-3xl border bg-white shadow-xl">
-
-    <div className="bg-red-700 px-5 py-3 text-white font-bold">
-      Homepage Preview
-    </div>
-
-    <div className="grid gap-6 p-6 lg:grid-cols-2">
-
-      <div>
-       <Input
-  label="Hero Title"
-  value={settings.heroTitle}
-  onChange={(v)=>updateField("heroTitle",v)}
-/>
-
-        <Input
-  label="Hero Subtitle"
-  value={settings.heroSubtitle}
-  onChange={(v)=>updateField("heroSubtitle",v)}
-/>
-
-        <p className="mt-4 text-slate-600">
-          {settings.heroSubtitle}
-        </p>
-
-        <button className="mt-6 rounded-xl bg-red-600 px-5 py-3 font-bold text-white">
-          Apply for Admission
-        </button>
-      </div>
-
-      <img
-        src={settings.aboutImage || "/images/school-building.jpg.jpeg"}
-        className="h-60 rounded-2xl object-cover shadow-lg"
-      />
-
-    </div>
-
-  </div>
-
-</div>
-
-</Card>
-
-{/* ================= ADMISSION SETTINGS ================= */}
-
-<Card
-  title="Admission Settings"
-  icon={<ShieldCheck className="text-red-600" />}
->
-  <div className="space-y-8">
-
-    {/* Admission Toggle */}
-    <div className="rounded-3xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 p-6 shadow-sm">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-
-        <div className="space-y-2">
-          <div className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-            ADMISSION STATUS
+      <div className="relative isolate overflow-hidden rounded-[32px] bg-gradient-to-r from-[#020617] via-[#450A0A] to-[#DC2626] p-8 text-white shadow-[0_25px_70px_rgba(127,29,29,0.45)]">
+        <div className="absolute -top-24 -left-16 h-72 w-72 rounded-full bg-red-500/30 blur-3xl" />
+        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-red-700/20 blur-3xl" />
+        <div className="absolute -bottom-20 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-orange-500/20 blur-3xl" />
+
+        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.35em] text-red-200">
+              Bright Bal Admin Portal
+            </p>
+
+            <h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+              Bright Bal Public School
+            </h1>
+
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-red-100">
+              Manage school branding, admissions, notices, gallery, contact details
+              and every website setting from one beautiful dashboard.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <div className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur">
+                🎓 Admin Control Center
+              </div>
+
+              <div className="rounded-full border border-red-300/20 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 backdrop-blur">
+                Session 2027–28
+              </div>
+            </div>
           </div>
 
-          <h3 className="text-2xl font-black text-slate-900">
-            {settings.admissionOpen ? "Admissions are Open" : "Admissions are Closed"}
-          </h3>
+          <div className="w-full max-w-xs rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-red-200">
+              Live Status
+            </p>
 
-          <p className="text-slate-600">
-            Students can submit admission forms through the website only when this switch is enabled.
-          </p>
+            <div className="mt-4 flex items-center gap-3">
+              <span className="h-3 w-3 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-lg font-bold">Website Active</span>
+            </div>
+
+            <div className="mt-6 space-y-4 text-sm">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <span className="text-red-100">Workspace</span>
+                <span className="font-bold">Settings</span>
+              </div>
+
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <span className="text-red-100">Theme</span>
+                <span className="font-bold">Bright Bal Red</span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-red-100">Portal</span>
+                <span className="font-bold text-emerald-300">LIVE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Card title="School Information" icon={<School className="text-red-600" />}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Input
+            label="School Name"
+            value={settings.schoolName}
+            onChange={(v) => updateField("schoolName", v)}
+            placeholder="Bright Bal Public School"
+          />
+
+          <Input
+            label="Tagline"
+            value={settings.tagline}
+            onChange={(v) => updateField("tagline", v)}
+            placeholder="English Medium School"
+          />
+
+          <Input
+            label="Principal Name"
+            value={settings.principal}
+            onChange={(v) => updateField("principal", v)}
+            placeholder="Principal Name"
+          />
+
+          <Input
+            label="School Motto"
+            value={settings.motto}
+            onChange={(v) => updateField("motto", v)}
+            placeholder="Learn • Grow • Shine"
+          />
+
+          <Input
+            label="UDISE Number"
+            value={settings.udise}
+            onChange={(v) => updateField("udise", v)}
+            placeholder="Enter UDISE Number"
+          />
+
+          <Input
+            label="Affiliation Number"
+            value={settings.affiliation}
+            onChange={(v) => updateField("affiliation", v)}
+            placeholder="Enter Affiliation Number"
+          />
+
+          <div className="md:col-span-2 grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border bg-red-50 p-6 text-center">
+              <label className="block text-sm font-bold text-red-700">
+                School Logo
+              </label>
+
+              <div className="mt-4 flex justify-center">
+                <img
+                  src={settings.logoUrl || "/logo/logo.png"}
+                  alt="School logo"
+                  className="h-28 w-28 rounded-full border-4 border-white shadow-lg object-cover"
+                />
+              </div>
+
+              <label className="mt-5 inline-flex cursor-pointer rounded-xl bg-red-600 px-5 py-3 font-bold text-white hover:bg-red-700">
+                Upload Logo
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files?.[0]) {
+                      handleLogoUpload(e.target.files[0]);
+                    }
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Contact Information" icon={<Phone className="text-green-600" />}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Input
+            label="Primary Phone"
+            value={settings.phone}
+            onChange={(v) => updateField("phone", v)}
+            placeholder="+91 9997157985"
+          />
+
+          <Input
+            label="Alternate Phone"
+            value={settings.alternatePhone}
+            onChange={(v) => updateField("alternatePhone", v)}
+            placeholder="+91 9876543210"
+          />
+
+          <Input
+            label="WhatsApp Number"
+            value={settings.whatsapp}
+            onChange={(v) => updateField("whatsapp", v)}
+            placeholder="+91 9997157985"
+          />
+
+          <Input
+            label="Email Address"
+            value={settings.email}
+            onChange={(v) => updateField("email", v)}
+            placeholder="brightbalp@gmail.com"
+          />
+
+          <Input
+            label="Website URL"
+            value={settings.website}
+            onChange={(v) => updateField("website", v)}
+            placeholder="www.brightbalpublicschool.in"
+          />
+
+          <Input
+            label="Google Maps URL"
+            value={settings.mapUrl}
+            onChange={(v) => updateField("mapUrl", v)}
+            placeholder="Paste Google Maps Link"
+          />
+
+          <div className="md:col-span-2 space-y-2">
+            <label className="text-sm font-bold text-slate-700">School Address</label>
+            <textarea
+              rows={4}
+              value={settings.address}
+              onChange={(e) => updateField("address", e.target.value)}
+              placeholder="18/162 M.P. Pura, Tajganj, Agra - 282001"
+              className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-red-600 focus:ring-4 focus:ring-red-100"
+            />
+          </div>
         </div>
 
+        <div className="mt-8 border-t pt-8">
+          <h3 className="mb-5 text-lg font-bold text-slate-800">Social Media Links</h3>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            <Input
+              label="Facebook URL"
+              value={settings.facebook}
+              onChange={(v) => updateField("facebook", v)}
+              placeholder="https://facebook.com/..."
+            />
+
+            <Input
+              label="Instagram URL"
+              value={settings.instagram}
+              onChange={(v) => updateField("instagram", v)}
+              placeholder="https://instagram.com/..."
+            />
+
+            <Input
+              label="YouTube URL"
+              value={settings.youtube}
+              onChange={(v) => updateField("youtube", v)}
+              placeholder="https://youtube.com/..."
+            />
+          </div>
+        </div>
+      </Card>
+
+      <Card title="About Section" icon={<School className="text-red-600" />}>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="space-y-5">
+            <Input
+              label="About Heading"
+              value={settings.aboutTitle}
+              onChange={(v) => updateField("aboutTitle", v)}
+            />
+
+            <Input
+              label="About Subtitle"
+              value={settings.aboutSubtitle}
+              onChange={(v) => updateField("aboutSubtitle", v)}
+            />
+
+            <Input
+              label="About Image URL"
+              value={settings.aboutImage}
+              onChange={(v) => updateField("aboutImage", v)}
+            />
+          </div>
+
+          <div className="rounded-3xl border bg-slate-50 p-5">
+            <label className="text-sm font-bold">About Description</label>
+            <textarea
+              rows={11}
+              value={settings.aboutDescription}
+              onChange={(e) => updateField("aboutDescription", e.target.value)}
+              className="mt-3 w-full rounded-2xl border p-4 outline-none"
+            />
+          </div>
+
+          {settings.aboutImage && (
+            <img
+              src={settings.aboutImage}
+              alt="About"
+              className="mt-6 h-72 w-full rounded-3xl object-cover shadow-xl"
+            />
+          )}
+        </div>
+      </Card>
+
+      <Card title="Live Website Preview" icon={<Sparkles className="text-yellow-600" />}>
+        <div className="rounded-[28px] border bg-gradient-to-br from-red-50 to-white p-6">
+          <div className="overflow-hidden rounded-3xl border bg-white shadow-xl">
+            <div className="bg-red-700 px-5 py-3 text-white font-bold">Homepage Preview</div>
+
+            <div className="grid gap-6 p-6 lg:grid-cols-2">
+              <div>
+                <Input
+                  label="Hero Title"
+                  value={settings.heroTitle}
+                  onChange={(v) => updateField("heroTitle", v)}
+                />
+
+                <Input
+                  label="Hero Subtitle"
+                  value={settings.heroSubtitle}
+                  onChange={(v) => updateField("heroSubtitle", v)}
+                />
+
+                <p className="mt-4 text-slate-600">{settings.heroSubtitle}</p>
+
+                <button
+                  type="button"
+                  className="mt-6 rounded-xl bg-red-600 px-5 py-3 font-bold text-white"
+                >
+                  Apply for Admission
+                </button>
+              </div>
+
+              <img
+                src={settings.aboutImage || "/images/school-building.jpg.jpeg"}
+                alt="School preview"
+                className="h-60 rounded-2xl object-cover shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Admission Settings" icon={<ShieldCheck className="text-red-600" />}>
+        <div className="space-y-8">
+          <div className="rounded-3xl border border-red-100 bg-gradient-to-r from-red-50 via-white to-orange-50 p-6 shadow-sm">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="space-y-2">
+                <div className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
+                  ADMISSION STATUS
+                </div>
+
+                <h3 className="text-2xl font-black text-slate-900">
+                  {settings.admissionOpen ? "Admissions are Open" : "Admissions are Closed"}
+                </h3>
+
+                <p className="text-slate-600">
+                  Students can submit admission forms through the website only when this switch is enabled.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => updateField("admissionOpen", !settings.admissionOpen)}
+                className={`relative h-12 w-24 rounded-full transition-all duration-300 ${
+                  settings.admissionOpen ? "bg-emerald-500" : "bg-red-500"
+                }`}
+              >
+                <span
+                  className={`absolute top-1 h-10 w-10 rounded-full bg-white shadow-md transition-all duration-300 ${
+                    settings.admissionOpen ? "left-[52px]" : "left-1"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <Input
+              label="Admission Session"
+              value={settings.admissionSession}
+              onChange={(v) => updateField("admissionSession", v)}
+              placeholder="2027-28"
+            />
+
+            <Input
+              label="Admission Last Date"
+              value={settings.admissionLastDate}
+              onChange={(v) => updateField("admissionLastDate", v)}
+              placeholder="31 March 2027"
+            />
+
+            <div className="md:col-span-2 space-y-2">
+              <label className="block text-sm font-bold text-slate-700">
+                Admission Banner
+              </label>
+
+              <textarea
+                rows={3}
+                value={settings.admissionBanner}
+                onChange={(e) => updateField("admissionBanner", e.target.value)}
+                placeholder="🎓 Admissions Open for Session 2027-28"
+                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-red-600 focus:ring-4 focus:ring-red-100"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-3xl overflow-hidden shadow-lg">
+            <div className="bg-gradient-to-r from-red-700 via-red-600 to-orange-500 p-6 text-white">
+              <span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+                {settings.admissionOpen ? "OPEN NOW" : "CLOSED"}
+              </span>
+
+              <h3 className="mt-4 text-3xl font-black">
+                Admissions {settings.admissionSession}
+              </h3>
+
+              <p className="mt-3 text-red-100">
+                {settings.admissionBanner || "Admissions are open for the new academic session."}
+              </p>
+
+              <div className="mt-5 rounded-xl bg-white/10 p-4 backdrop-blur">
+                <p className="text-sm text-red-100">Last Date</p>
+                <p className="text-lg font-bold">
+                  {settings.admissionLastDate || "Not Added"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Website Controls" icon={<Settings className="text-violet-600" />}>
+        <div className="space-y-6">
+          <div className="rounded-3xl border border-violet-100 bg-gradient-to-r from-violet-50 via-white to-purple-50 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-lg font-bold text-slate-900">Maintenance Mode</p>
+                <p className="text-slate-600">
+                  Show a maintenance page instead of the website.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => updateField("maintenanceMode", !settings.maintenanceMode)}
+                className={`relative h-11 w-24 rounded-full transition-all ${
+                  settings.maintenanceMode ? "bg-red-500" : "bg-emerald-500"
+                }`}
+              >
+                <span
+                  className={`absolute top-1 h-9 w-9 rounded-full bg-white shadow-md transition-all ${
+                    settings.maintenanceMode ? "left-14" : "left-1"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-bold text-slate-700">
+              Maintenance Message
+            </label>
+
+            <textarea
+              rows={4}
+              value={settings.maintenanceMessage}
+              onChange={(e) => updateField("maintenanceMessage", e.target.value)}
+              placeholder="Website is under maintenance. We'll be back shortly."
+              className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-violet-600 focus:ring-4 focus:ring-violet-100"
+            />
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">
+              Maintenance Preview
+            </p>
+
+            <div className="rounded-xl bg-white p-5 shadow-sm">
+              <div className="mb-3 inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-600">
+                WEBSITE UNDER MAINTENANCE
+              </div>
+
+              <h4 className="text-xl font-black text-slate-900">We'll be back soon!</h4>
+
+              <p className="mt-2 text-slate-600">
+                {settings.maintenanceMessage ||
+                  "Website is under maintenance. We'll be back shortly."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card title="Danger Zone" icon={<Bell className="text-red-600" />}>
+        <div className="space-y-4 rounded-2xl border border-red-200 bg-red-50 p-4">
+          <button
+            type="button"
+            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
+            onClick={async () => {
+              await supabase.from("gallery").delete().neq("id", 0);
+              alert("Gallery cleared.");
+            }}
+          >
+            Delete All Gallery Images
+          </button>
+
+          <button
+            type="button"
+            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
+            onClick={async () => {
+              const { error } = await supabase.from("gallery").delete().neq("id", 0);
+
+              if (error) {
+                alert(error.message);
+              } else {
+                alert("Gallery cleared successfully.");
+              }
+            }}
+          >
+            Delete All Notices
+          </button>
+
+          <button
+            type="button"
+            onClick={resetSettings}
+            className="w-full rounded-2xl bg-red-700 py-4 font-bold text-white hover:bg-red-800"
+          >
+            Reset Website Settings
+          </button>
+        </div>
+      </Card>
+
+      <div className="fixed bottom-6 right-6 z-50">
         <button
           type="button"
-          onClick={() => updateField("admissionOpen", !settings.admissionOpen)}
-          className={`relative h-12 w-24 rounded-full transition-all duration-300 ${
-            settings.admissionOpen ? "bg-emerald-500" : "bg-red-500"
-          }`}
+          onClick={saveSettings}
+          disabled={saving}
+          className="flex items-center gap-3 rounded-full bg-gradient-to-r from-red-700 to-red-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition hover:scale-105"
         >
-          <span
-            className={`absolute top-1 h-10 w-10 rounded-full bg-white shadow-md transition-all duration-300 ${
-              settings.admissionOpen ? "left-[52px]" : "left-1"
-            }`}
-          />
+          <Save size={22} />
+          {saving ? "Saving..." : "Save Changes"}
         </button>
       </div>
-    </div>
-
-    {/* Form Fields */}
-    <div className="grid gap-5 md:grid-cols-2">
-      <Input
-        label="Admission Session"
-        value={settings.admissionSession}
-        onChange={(v) => updateField("admissionSession", v)}
-        placeholder="2027-28"
-      />
-
-      <Input
-        label="Admission Last Date"
-        value={settings.admissionLastDate}
-        onChange={(v) => updateField("admissionLastDate", v)}
-        placeholder="31 March 2027"
-      />
-
-      <div className="md:col-span-2 space-y-2">
-        <label className="block text-sm font-bold text-slate-700">
-          Admission Banner
-        </label>
-
-        <textarea
-          rows={3}
-          value={settings.admissionBanner}
-          onChange={(e) => updateField("admissionBanner", e.target.value)}
-          placeholder="🎓 Admissions Open for Session 2027-28"
-          className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-red-600 focus:ring-4 focus:ring-red-100"
-        />
-      </div>
-    </div>
-
-    {/* Live Preview */}
-    <div className="rounded-3xl overflow-hidden shadow-lg">
-      <div className="bg-gradient-to-r from-red-700 via-red-600 to-orange-500 p-6 text-white">
-
-        <span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
-          {settings.admissionOpen ? "OPEN NOW" : "CLOSED"}
-        </span>
-
-        <h3 className="mt-4 text-3xl font-black">
-          Admissions {settings.admissionSession}
-        </h3>
-
-        <p className="mt-3 text-red-100">
-          {settings.admissionBanner || "Admissions are open for the new academic session."}
-        </p>
-
-        <div className="mt-5 rounded-xl bg-white/10 p-4 backdrop-blur">
-          <p className="text-sm text-red-100">Last Date</p>
-
-          <p className="text-lg font-bold">
-            {settings.admissionLastDate || "Not Added"}
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</Card>
-
-{/* ================= WEBSITE CONTROLS ================= */}
-
-<Card
-  title="Website Controls"
-  icon={<Settings className="text-violet-600" />}
->
-  <div className="space-y-6">
-
-    <div className="rounded-3xl border border-violet-100 bg-gradient-to-r from-violet-50 via-white to-purple-50 p-6">
-
-      <div className="flex items-center justify-between">
-
-        <div>
-          <p className="text-lg font-bold text-slate-900">
-            Maintenance Mode
-          </p>
-
-          <p className="text-slate-600">
-            Show a maintenance page instead of the website.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() =>
-            updateField("maintenanceMode", !settings.maintenanceMode)
-          }
-          className={`relative h-11 w-24 rounded-full transition-all ${
-            settings.maintenanceMode ? "bg-red-500" : "bg-emerald-500"
-          }`}
-        >
-          <span
-            className={`absolute top-1 h-9 w-9 rounded-full bg-white shadow-md transition-all ${
-              settings.maintenanceMode ? "left-14" : "left-1"
-            }`}
-          />
-        </button>
-      </div>
-    </div>
-
-    <div className="space-y-2">
-      <label className="block text-sm font-bold text-slate-700">
-        Maintenance Message
-      </label>
-
-      <textarea
-        rows={4}
-        value={settings.maintenanceMessage}
-        onChange={(e) =>
-          updateField("maintenanceMessage", e.target.value)
-        }
-        placeholder="Website is under maintenance. We'll be back shortly."
-        className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 shadow-sm outline-none transition focus:border-violet-600 focus:ring-4 focus:ring-violet-100"
-      />
-    </div>
-
-    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-      <p className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">
-        Maintenance Preview
-      </p>
-
-      <div className="rounded-xl bg-white p-5 shadow-sm">
-        <div className="mb-3 inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-600">
-          WEBSITE UNDER MAINTENANCE
-        </div>
-
-        <h4 className="text-xl font-black text-slate-900">
-          We'll be back soon!
-        </h4>
-
-        <p className="mt-2 text-slate-600">
-          {settings.maintenanceMessage ||
-            "Website is under maintenance. We'll be back shortly."}
-        </p>
-      </div>
-    </div>
-
-  </div>
-</Card>
-
-
-     <Card title="Danger Zone" icon={<Bell className="text-red-600" />}>
-  <div className="space-y-4 rounded-2xl border border-red-200 bg-red-50 p-4">
-
-    <button
-      className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
-      onClick={async () => {
-        await supabase.from("gallery").delete().neq("id", 0);
-        alert("Gallery cleared.");
-      }}
-    >
-      Delete All Gallery Images
-    </button>
-
-    <button
-      className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
-      onClick={async () => {
-  const { error } = await supabase.from("gallery").delete().neq("id",0);
-
-  if(error){
-    alert(error.message);
-  }else{
-    alert("Gallery cleared successfully.");
-  }
-}}
-    >
-      Delete All Notices
-    </button>
-
-    <button
-      onClick={resetSettings}
-      className="w-full rounded-2xl bg-red-700 py-4 font-bold text-white hover:bg-red-800"
-    >
-      Reset Website Settings
-    </button>
-
-  </div>
-</Card>
-
-      {/* Save */}
-     <div className="fixed bottom-6 right-6 z-50">
-
-  <button
-    onClick={saveSettings}
-    disabled={saving}
-    className="flex items-center gap-3 rounded-full bg-gradient-to-r from-red-700 to-red-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition hover:scale-105"
-  >
-    <Save size={22}/>
-    {saving ? "Saving..." : "Save Changes"}
-  </button>
-
-</div>
-
     </div>
   );
 }
