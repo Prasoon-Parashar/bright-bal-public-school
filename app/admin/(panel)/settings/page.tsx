@@ -57,7 +57,7 @@ export default function SettingsPage() {
   .from("notices")
   .delete()
   .neq("id", 0);
-  
+
     if (error) {
       setMessage({ type: "error", text: error.message });
       return;
@@ -217,6 +217,45 @@ const data = rows?.[0] ?? null;
     setSettings((prev) => ({ ...prev, [key]: value }));
     setMessage(null);
   }
+  async function toggleMaintenance() {
+  if (!settingsId) return;
+
+  const nextValue = !settings.maintenanceMode;
+
+  setSettings((prev) => ({
+    ...prev,
+    maintenanceMode: nextValue,
+  }));
+
+  const { error } = await supabase
+    .from("school_settings")
+    .update({
+      maintenance_mode: nextValue,
+    })
+    .eq("id", settingsId);
+
+  if (error) {
+    // Agar database update fail hua to toggle ko previous state par lao
+    setSettings((prev) => ({
+      ...prev,
+      maintenanceMode: !nextValue,
+    }));
+
+    setMessage({
+      type: "error",
+      text: `Maintenance mode update failed: ${error.message}`,
+    });
+
+    return;
+  }
+
+  setMessage({
+    type: "success",
+    text: nextValue
+      ? "Maintenance mode enabled."
+      : "Maintenance mode disabled.",
+  });
+}
 
 
 async function resetSettings() {
@@ -823,7 +862,7 @@ async function resetSettings() {
 
               <button
                 type="button"
-                onClick={() => updateField("maintenanceMode", !settings.maintenanceMode)}
+                onClick={toggleMaintenance}
                 className={`relative h-11 w-24 rounded-full transition-all ${
                   settings.maintenanceMode ? "bg-red-500" : "bg-emerald-500"
                 }`}
