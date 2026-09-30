@@ -356,8 +356,6 @@ async function resetSettings() {
         hero_title: settings.heroTitle,
         hero_subtitle: settings.heroSubtitle,
         principal_message: settings.principalMessage,
-
-        maintenance_mode: settings.maintenanceMode,
         maintenance_message: settings.maintenanceMessage,
       })
       .eq("id", settingsId)
