@@ -104,10 +104,11 @@ aboutImage: "",
     setMessage(null);
 
     const { data, error } = await supabase
-      .from("school_settings")
-      .select("*")
-      .limit(1)
-      .single();
+  .from("school_settings")
+  .select("*")
+  .order("id", { ascending: true })
+  .range(0, 0)
+  .maybeSingle();
 
     if (error || !data) {
       setMessage({
@@ -369,7 +370,7 @@ async function resetSettings() {
               </div>
 
               <div className="rounded-full border border-red-300/20 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 backdrop-blur">
-                Session 2027–28
+                Session {settings.admissionSession}
               </div>
             </div>
           </div>
