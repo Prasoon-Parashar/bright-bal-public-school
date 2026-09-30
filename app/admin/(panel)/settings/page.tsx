@@ -18,27 +18,61 @@ const supabase = createClient();
 
 export default function SettingsPage() {
   async function handleLogoUpload(file: File) {
-  try {
-    const url = await uploadSchoolImage(file, "logo");
+    if (!settingsId) {
+      setMessage({
+        type: "error",
+        text: "Settings are not ready yet. Please wait a moment and try again.",
+      });
+      return;
+    }
 
-    updateField("logoUrl", url);
+    try {
+      const url = await uploadSchoolImage(file, "logo");
+      updateField("logoUrl", url);
 
-    await supabase
-      .from("school_settings")
-      .update({ logo_url: url })
-      .eq("id", settingsId);
+      const { error } = await supabase
+        .from("school_settings")
+        .update({ logo_url: url })
+        .eq("id", settingsId);
 
-    setMessage({
-      type: "success",
-      text: "School logo updated successfully.",
-    });
-  } catch {
-    setMessage({
-      type: "error",
-      text: "Logo upload failed.",
-    });
+      if (error) {
+        throw error;
+      }
+
+      setMessage({
+        type: "success",
+        text: "School logo updated successfully.",
+      });
+    } catch (error) {
+      console.error("LOGO UPLOAD ERROR:", error);
+      setMessage({
+        type: "error",
+        text: "Logo upload failed.",
+      });
+    }
   }
-}
+
+  async function deleteGalleryImages() {
+    const { error } = await supabase.from("gallery").delete().neq("id", 0);
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+      return;
+    }
+
+    setMessage({ type: "success", text: "Gallery cleared successfully." });
+  }
+
+  async function deleteNotices() {
+    const { error } = await supabase.from("notices").delete().neq("id", 0);
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+      return;
+    }
+
+    setMessage({ type: "success", text: "Notices cleared successfully." });
+  }
   const [settingsId, setSettingsId] = useState<number | null>(null);
   const [settings, setSettings] = useState({
     // About Section
@@ -224,12 +258,8 @@ async function resetSettings() {
     maintenance_message: "Website is under maintenance. We'll be back shortly.",
   };
 
-  await supabase
-    .from("school_settings")
-    .update(defaults)
-    .eq("id", settingsId);
-
-  fetchSettings();
+  await supabase.from("school_settings").update(defaults).eq("id", settingsId);
+  await fetchSettings();
 
   setMessage({
     type: "success",
@@ -316,6 +346,7 @@ async function resetSettings() {
       text: "Settings saved successfully.",
     });
 
+    await fetchSettings();
   } catch (err) {
     console.error("SETTINGS SAVE ERROR:", err);
 
@@ -328,6 +359,22 @@ async function resetSettings() {
     setSaving(false);
   }
 }
+
+  if (loading) {
+    return (
+      <div className="space-y-6 p-6">
+        <div className="h-32 animate-pulse rounded-[32px] bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200" />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="h-72 animate-pulse rounded-[28px] bg-slate-100"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 pb-28">
@@ -371,6 +418,11 @@ async function resetSettings() {
 
               <div className="rounded-full border border-red-300/20 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 backdrop-blur">
                 Session {settings.admissionSession}
+              </div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-red-50 backdrop-blur">
+                <GraduationCap size={16} />
+                Smart Learning
               </div>
             </div>
           </div>
@@ -463,7 +515,8 @@ async function resetSettings() {
                 />
               </div>
 
-              <label className="mt-5 inline-flex cursor-pointer rounded-xl bg-red-600 px-5 py-3 font-bold text-white hover:bg-red-700">
+              <label className="mt-5 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-red-600 px-5 py-3 font-bold text-white transition hover:bg-red-700">
+                <Upload size={18} />
                 Upload Logo
                 <input
                   type="file"
@@ -801,27 +854,16 @@ async function resetSettings() {
         <div className="space-y-4 rounded-2xl border border-red-200 bg-red-50 p-4">
           <button
             type="button"
-            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
-            onClick={async () => {
-              await supabase.from("gallery").delete().neq("id", 0);
-              alert("Gallery cleared.");
-            }}
+            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 transition hover:bg-red-100"
+            onClick={deleteGalleryImages}
           >
             Delete All Gallery Images
           </button>
 
           <button
             type="button"
-            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 hover:bg-red-100"
-            onClick={async () => {
-              const { error } = await supabase.from("gallery").delete().neq("id", 0);
-
-              if (error) {
-                alert(error.message);
-              } else {
-                alert("Gallery cleared successfully.");
-              }
-            }}
+            className="w-full rounded-2xl border border-red-300 bg-white py-4 font-bold text-red-700 transition hover:bg-red-100"
+            onClick={deleteNotices}
           >
             Delete All Notices
           </button>
@@ -865,7 +907,7 @@ function Card({
   return (
     <div className="overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(185,28,28,0.12)]">
 
-      <div className="flex items-center gap-3 border-b border-red-100 bg-gradient-to-r from-red-50/80 to-white px-6 py-5 sm:px-8">
+      <div className="group flex items-center gap-3 border-b border-red-100 bg-gradient-to-r from-red-50/80 to-white px-6 py-5 sm:px-8">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-red-100">
           {icon}
         </div>
