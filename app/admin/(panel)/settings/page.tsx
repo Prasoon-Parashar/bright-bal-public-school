@@ -319,8 +319,7 @@ async function resetSettings() {
         maintenance_message: settings.maintenanceMessage,
       })
       .eq("id", settingsId)
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error("SAVE SETTINGS ERROR:", error);
