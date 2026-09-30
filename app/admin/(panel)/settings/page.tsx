@@ -53,8 +53,11 @@ export default function SettingsPage() {
   }
 
   async function deleteGalleryImages() {
-    const { error } = await supabase.from("gallery").delete().neq("id", 0);
-
+    const { error } = await supabase
+  .from("notices")
+  .delete()
+  .neq("id", 0);
+  
     if (error) {
       setMessage({ type: "error", text: error.message });
       return;
@@ -417,8 +420,8 @@ async function resetSettings() {
               </div>
 
               <div className="rounded-full border border-red-300/20 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-100 backdrop-blur">
-                Session {settings.admissionSession}
-              </div>
+  🎓 Session {settings.admissionSession}
+</div>
 
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-red-50 backdrop-blur">
                 <GraduationCap size={16} />
@@ -433,9 +436,20 @@ async function resetSettings() {
             </p>
 
             <div className="mt-4 flex items-center gap-3">
-              <span className="h-3 w-3 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-lg font-bold">Website Active</span>
-            </div>
+  <span
+    className={`h-3 w-3 rounded-full ${
+      settings.maintenanceMode
+        ? "bg-red-400"
+        : "bg-emerald-400 animate-pulse"
+    }`}
+  />
+
+  <span className="text-lg font-bold">
+    {settings.maintenanceMode
+      ? "Maintenance Mode"
+      : "Website Active"}
+  </span>
+</div>
 
             <div className="mt-6 space-y-4 text-sm">
               <div className="flex items-center justify-between border-b border-white/10 pb-2">
@@ -449,9 +463,17 @@ async function resetSettings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-red-100">Portal</span>
-                <span className="font-bold text-emerald-300">LIVE</span>
-              </div>
+  <span className="text-red-100">Portal</span>
+  <span
+    className={`font-bold ${
+      settings.maintenanceMode
+        ? "text-yellow-300"
+        : "text-emerald-300"
+    }`}
+  >
+    {settings.maintenanceMode ? "MAINTENANCE" : "LIVE"}
+  </span>
+</div>
             </div>
           </div>
         </div>
@@ -878,17 +900,18 @@ async function resetSettings() {
         </div>
       </Card>
 
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          type="button"
-          onClick={saveSettings}
-          disabled={saving}
-          className="flex items-center gap-3 rounded-full bg-gradient-to-r from-red-700 to-red-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition hover:scale-105"
-        >
-          <Save size={22} />
-          {saving ? "Saving..." : "Save Changes"}
-        </button>
-      </div>
+      <div className="sticky bottom-4 z-40 flex justify-end pt-4">
+  <div className="rounded-2xl border border-slate-200 bg-white/95 p-2 shadow-xl backdrop-blur">
+    <button
+      onClick={saveSettings}
+      disabled={saving}
+      className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-red-700 to-red-500 px-6 py-3.5 text-base font-bold text-white transition hover:from-red-800 hover:to-red-600 disabled:cursor-not-allowed disabled:opacity-60 sm:px-8"
+    >
+      <Save size={20} />
+      {saving ? "Saving..." : "Save Changes"}
+    </button>
+  </div>
+</div>
     </div>
   );
 }

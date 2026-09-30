@@ -7,6 +7,7 @@ import "yet-another-react-lightbox/styles.css";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { createClient } from "@/lib/supabase/server";
+import MaintenanceGate from "@/components/layout/MaintenanceGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,9 +71,13 @@ export default async function RootLayout({
             </div>
           ) : (
             // Normal Website (Navbar + Footer Included)
-            <SiteChrome>{children}</SiteChrome>
+            <MaintenanceGate>
+              <SiteChrome>{children}</SiteChrome>
+            </MaintenanceGate>
           )}
+          
         </ThemeProvider>
+
       </body>
     </html>
   );
