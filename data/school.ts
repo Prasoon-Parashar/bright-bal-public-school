@@ -6,6 +6,5 @@ export const school = {
   classes: "Nursery to Class VIII",
 
   phone: "+91 9997157985",
-
-  email: "info@brightbalpublicschool.in",
+email: "brightbalp@gmail.com",
 };
