@@ -81,15 +81,6 @@ export default function PrincipalMessage() {
             </div>
 
             {/* Floating Card */}
-            <div className="absolute -bottom-8 left-1/2 z-10 w-[260px] -translate-x-1/2 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl sm:-bottom-8">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-red-700">
-                  <Heart size={22} />
-                </div>
-
-        
-              </div>
-            </div>
 
           </div>
 
