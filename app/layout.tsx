@@ -19,10 +19,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Bright Bal Public School | English Medium School, Agra",
   description:
     "Bright Bal Public School is an English Medium School in Agra providing quality education from Nursery to Class VIII with discipline, values and holistic development.",
+
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 
   openGraph: {
     title: "Bright Bal Public School",
