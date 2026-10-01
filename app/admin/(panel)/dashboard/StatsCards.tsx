@@ -18,7 +18,7 @@ export default async function StatsCards() {
     supabase.from("admissions").select("*", { count: "exact", head: true }),
     supabase.from("gallery").select("*", { count: "exact", head: true }),
     supabase.from("notices").select("*", { count: "exact", head: true }),
-    supabase.from("contact_messages").select("*", { count: "exact", head: true }),
+    supabase.from("enquiries").select("*", { count: "exact", head: true }),
   ]);
 
   const cards = [
