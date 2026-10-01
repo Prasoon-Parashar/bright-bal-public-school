@@ -41,7 +41,38 @@ export const metadata: Metadata = {
     google: "YOUR_GOOGLE_VERIFICATION_CODE",
   },
 };
- 
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://bright-bal-public-school.vercel.app/#website",
+      url: "https://bright-bal-public-school.vercel.app/",
+      name: "Bright Bal Public School",
+      description:
+        "Bright Bal Public School is an English Medium School in Agra providing quality education from Nursery to Class VIII.",
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "School",
+      "@id": "https://bright-bal-public-school.vercel.app/#school",
+      name: "Bright Bal Public School",
+      url: "https://bright-bal-public-school.vercel.app/",
+      logo: "https://bright-bal-public-school.vercel.app/logo/logo.png.png",
+      image: "https://bright-bal-public-school.vercel.app/images/school-building.jpg.jpeg",
+      description:
+        "Bright Bal Public School is an English Medium School in Agra providing quality education from Nursery to Class VIII with discipline, values and holistic development.",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Baldev Nagar, Gobar Chowki",
+        addressLocality: "Agra",
+        addressRegion: "Uttar Pradesh",
+        addressCountry: "IN",
+      },
+    },
+  ],
+};
 
 export default async function RootLayout({
   children,
@@ -60,6 +91,13 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
+        />
+
         <ThemeProvider>
           {data?.maintenance_mode ? (
             // Maintenance Screen
@@ -81,9 +119,7 @@ export default async function RootLayout({
               <SiteChrome>{children}</SiteChrome>
             </MaintenanceGate>
           )}
-          
         </ThemeProvider>
-
       </body>
     </html>
   );
