@@ -73,7 +73,6 @@ function isValidAadhaar(aadhaar: string) {
   return c === 0;
 }
 // -------- AGE VALIDATION --------
-// -------- AGE VALIDATION --------
 function calculateAge(dateOfBirth: string) {
   const today = new Date();
   const dob = new Date(dateOfBirth);

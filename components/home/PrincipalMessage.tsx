@@ -87,15 +87,7 @@ export default function PrincipalMessage() {
                   <Heart size={22} />
                 </div>
 
-                <div>
-                  <p className="font-bold text-slate-900">
-                    Every Child Matters
-                  </p>
-
-                  <p className="text-xs text-slate-500">
-                    Learn • Grow • Succeed
-                  </p>
-                </div>
+        
               </div>
             </div>
 
