@@ -86,7 +86,7 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email Address",
-      content: "info@brightbalpublicschool.in",
+      content: "brightbalp@gmail.com",
     },
     {
       icon: Clock,
