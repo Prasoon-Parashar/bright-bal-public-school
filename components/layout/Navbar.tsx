@@ -65,7 +65,7 @@ export default function Navbar() {
               src={
                 school.logo_url && school.logo_url !== ""
                   ? `${school.logo_url}?v=${Date.now()}`
-                  : "/logo/logo.png"
+                  : "/logo/logo.png.png"
               }
               alt="Bright Bal Public School"
               width={56}
