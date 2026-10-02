@@ -210,7 +210,7 @@ function cancelEdit() {
           </div>
         </div>
 
-        <section className="grid gap-6 xl:grid-cols-[1.1fr_1.9fr]">
+        <section className="grid items-start gap-6 xl:grid-cols-[1.1fr_1.9fr]">
           <div className="rounded-[28px] border border-slate-200 bg-white/85 p-5 shadow-[0_12px_30px_-12px_rgba(15,23,42,0.15)] backdrop-blur-sm md:p-6">
             <div className="mb-5 flex items-center gap-3">
               <div className="rounded-2xl bg-red-100 p-2.5 text-red-700">
