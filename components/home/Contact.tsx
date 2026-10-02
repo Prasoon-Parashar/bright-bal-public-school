@@ -69,13 +69,7 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "School Address",
-      content: (
-        <>
-          Baldev Nagar, Gober Chowki
-          <br />
-          Agra, Uttar Pradesh
-        </>
-      ),
+     content: "Baldev Nagar, Gober Chowki, Agra, Uttar Pradesh",
     },
     {
       icon: Phone,
@@ -153,14 +147,14 @@ export default function Contact() {
             </div>
 
           {/* Contact Cards */}
-<div className="mt-8 grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+<div className="mt-8 grid grid-cols-1 gap-4">
   {contactDetails.map((item) => {
     const Icon = item.icon;
 
     return (
       <div
         key={item.title}
-        className="group flex h-fit w-full items-start gap-4 self-start rounded-3xl border border-slate-200 bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
+        className="group flex min-h-[104px] w-full items-center gap-4 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
       >
         <div className="flex h-12 w-12 min-h-12 min-w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition-all duration-300 group-hover:bg-red-700 group-hover:text-white">
           <Icon size={24} />
