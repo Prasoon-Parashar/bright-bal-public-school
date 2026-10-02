@@ -64,12 +64,13 @@ const jsonLd = {
       description:
         "Bright Bal Public School is an English Medium School in Agra providing quality education from Nursery to Class VIII with discipline, values and holistic development.",
       address: {
-        "@type": "PostalAddress",
-        streetAddress: "Baldev Nagar, Gobar Chowki",
-        addressLocality: "Agra",
-        addressRegion: "Uttar Pradesh",
-        addressCountry: "IN",
-      },
+  "@type": "PostalAddress",
+  streetAddress: "Baldev Nagar, Gobar Chowki",
+  addressLocality: "Agra",
+  addressRegion: "Uttar Pradesh",
+  postalCode: "282001",
+  addressCountry: "IN",
+},
     },
   ],
 };
