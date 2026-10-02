@@ -11,8 +11,9 @@ import {
   Plus,
   Sparkles,
   Trash2,
+  Pencil,
+  X,
 } from "lucide-react";
-
 const supabase = createClient();
 
 export default function NoticesPage() {
@@ -20,6 +21,7 @@ export default function NoticesPage() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [notices, setNotices] = useState<any[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const publishedCount = notices.filter(
     (notice) => notice.status === "Published",
@@ -42,18 +44,34 @@ export default function NoticesPage() {
   }, []);
 
   async function addNotice() {
-    if (!title || !description) {
-      alert("Fill both fields.");
-      return;
-    }
+  const cleanTitle = title.trim();
+  const cleanDescription = description.trim();
 
-    setLoading(true);
+  if (!cleanTitle || !cleanDescription) {
+    alert("Please enter both notice title and message.");
+    return;
+  }
 
-    const { error } = await supabase.from("notices").insert({
-      title,
-      description,
-      status: "Published",
-    });
+  if (cleanTitle.length > 100) {
+    alert("Notice title cannot exceed 100 characters.");
+    return;
+  }
+
+  if (cleanDescription.length > 500) {
+    alert("Notice message cannot exceed 500 characters.");
+    return;
+  }
+
+  setLoading(true);
+
+  if (editingId !== null) {
+    const { error } = await supabase
+      .from("notices")
+      .update({
+        title: cleanTitle,
+        description: cleanDescription,
+      })
+      .eq("id", editingId);
 
     setLoading(false);
 
@@ -62,13 +80,54 @@ export default function NoticesPage() {
       return;
     }
 
-    alert("Notice Published Successfully.");
+    alert("Notice Updated Successfully.");
 
     setTitle("");
     setDescription("");
+    setEditingId(null);
 
     fetchNotices();
+    return;
   }
+
+  const { error } = await supabase.from("notices").insert({
+    title: cleanTitle,
+    description: cleanDescription,
+    status: "Published",
+  });
+
+  setLoading(false);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Notice Published Successfully.");
+
+  setTitle("");
+  setDescription("");
+
+  fetchNotices();
+}
+
+function startEdit(notice: any) {
+  setEditingId(notice.id);
+  setTitle(notice.title);
+  setDescription(notice.description);
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+function cancelEdit() {
+  setEditingId(null);
+  setTitle("");
+  setDescription("");
+}
+
 
   async function deleteNotice(id: number) {
     if (!confirm("Delete this notice?")) return;
@@ -169,11 +228,15 @@ export default function NoticesPage() {
                   Notice Title
                 </label>
                 <input
-                  placeholder="Enter notice title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+  placeholder="Enter notice title"
+  value={title}
+  maxLength={100}
+  onChange={(e) => setTitle(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-red-300 focus:bg-white focus:ring-4 focus:ring-red-100"
                 />
+                <p className="mt-1 text-right text-xs text-slate-500">
+  {title.length}/100
+</p>
               </div>
 
               <div>
@@ -181,22 +244,50 @@ export default function NoticesPage() {
                   Message
                 </label>
                 <textarea
-                  rows={6}
-                  placeholder="Write the notice details here..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+  rows={6}
+  placeholder="Write the notice details here..."
+  value={description}
+  maxLength={500}
+  onChange={(e) => setDescription(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-red-300 focus:bg-white focus:ring-4 focus:ring-red-100"
                 />
+                <p className="mt-1 text-right text-xs text-slate-500">
+  {description.length}/500
+</p>
               </div>
 
-              <button
-                onClick={addNotice}
-                disabled={loading}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-700 to-red-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-red-200 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                <Plus className="h-4 w-4" />
-                {loading ? "Publishing..." : "Publish Notice"}
-              </button>
+              <div className="flex gap-2">
+  <button
+    onClick={addNotice}
+    disabled={loading}
+    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-700 to-red-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-red-200 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+  >
+    {editingId !== null ? (
+      <Pencil className="h-4 w-4" />
+    ) : (
+      <Plus className="h-4 w-4" />
+    )}
+
+    {loading
+      ? editingId !== null
+        ? "Updating..."
+        : "Publishing..."
+      : editingId !== null
+        ? "Update Notice"
+        : "Publish Notice"}
+  </button>
+
+  {editingId !== null && (
+    <button
+      type="button"
+      onClick={cancelEdit}
+      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3.5 font-semibold text-slate-700 transition hover:bg-slate-200"
+    >
+      <X className="h-4 w-4" />
+      Cancel
+    </button>
+  )}
+</div>
             </div>
           </div>
 
@@ -258,6 +349,14 @@ export default function NoticesPage() {
                     </div>
 
                     <div className="flex shrink-0 gap-2 md:flex-col">
+                      <button
+  type="button"
+  onClick={() => startEdit(notice)}
+  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-100 px-3.5 py-2.5 text-sm font-semibold text-blue-700 transition hover:bg-blue-200"
+>
+  <Pencil className="h-4 w-4" />
+  Edit
+</button>
                       <button
                         onClick={() => toggleStatus(notice.id, notice.status)}
                         className={`inline-flex items-center justify-center gap-2 rounded-2xl px-3.5 py-2.5 text-sm font-semibold transition ${
