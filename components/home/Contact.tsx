@@ -156,7 +156,7 @@ export default function Contact() {
         key={item.title}
         className="group flex min-h-[104px] w-full items-center gap-4 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
       >
-        <div className="flex h-12 w-12 min-h-12 min-w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition-all duration-300 group-hover:bg-red-700 group-hover:text-white">
+        <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 p-0 text-red-700 transition-all duration-300 group-hover:bg-red-700 group-hover:text-white">
           <Icon size={24} />
         </div>
 
