@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -154,28 +153,30 @@ export default function Contact() {
             </div>
 
             {/* Contact Cards */}
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <div className="group self-start rounded-3xl border border-slate-200 bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl">
 
               {contactDetails.map((item) => {
                 const Icon = item.icon;
 
                 return (
-                  <div
-                    key={item.title}
-                    className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-red-200 hover:shadow-xl"
-                  >
-                    <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-red-100 p-3 text-red-700 transition-all duration-300 group-hover:bg-red-700 group-hover:text-white">
-                      <Icon size={25} />
-                    </div>
+                 <div
+  key={item.title}
+  className="group flex items-start gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
+>
+  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-700 transition-all duration-300 group-hover:bg-red-700 group-hover:text-white">
+    <Icon size={24} />
+  </div>
 
-                    <h4 className="mt-5 text-lg font-extrabold text-slate-900">
-                      {item.title}
-                    </h4>
+  <div className="min-w-0 flex-1">
+    <h4 className="text-lg font-extrabold text-slate-900">
+      {item.title}
+    </h4>
 
-                    <div className="mt-2 break-words text-sm leading-6 text-slate-600">
-                      {item.content}
-                    </div>
-                  </div>
+    <div className="mt-1 break-words text-sm leading-6 text-slate-600">
+      {item.content}
+    </div>
+  </div>
+</div>
                 );
               })}
 
