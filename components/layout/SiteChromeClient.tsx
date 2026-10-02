@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import { Loader2 } from "lucide-react";
 
-export default function SiteChrome({
+export default function SiteChromeClient({
   children,
 }: {
   children: React.ReactNode;
@@ -67,7 +64,6 @@ export default function SiteChrome({
         return;
       }
 
-      // Convert relative URL to actual pathname
       const url = new URL(href, window.location.origin);
 
       // Same page
@@ -92,45 +88,43 @@ export default function SiteChrome({
 
   return (
     <>
-      <Navbar />
+      {children}
 
-      <main>{children}</main>
+      {isLoading && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-md"
+          role="status"
+          aria-live="polite"
+          aria-label="Loading page"
+        >
+          <div className="flex flex-col items-center">
+            <div className="relative flex h-20 w-20 items-center justify-center">
+              <div className="absolute inset-0 animate-spin rounded-full border-[3px] border-red-100 border-t-red-600" />
 
-      <Footer />
+              <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-lg">
+                <img
+                  src="/logo/logo.png.png"
+                  alt="Bright Bal Public School"
+                  className="h-full w-full object-contain p-1"
+                />
+              </div>
+            </div>
 
-     {isLoading && (
-  <div
-    className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-md"
-    role="status"
-    aria-live="polite"
-    aria-label="Loading page"
-  >
-    <div className="flex flex-col items-center">
-      <div className="relative flex h-20 w-20 items-center justify-center">
-        {/* Animated ring */}
-        <div className="absolute inset-0 animate-spin rounded-full border-[3px] border-red-100 border-t-red-600" />
-
-        {/* School logo */}
-        <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-lg">
-          <img
-            src="/logo/logo.png.png"
-            alt="Bright Bal Public School"
-            className="h-full w-full object-contain p-1"
-          />
+            <p className="mt-5 text-sm font-semibold tracking-wide text-slate-700">
+              Loading
+              <span className="ml-1 inline-flex">
+                <span className="animate-pulse">.</span>
+                <span className="animate-pulse [animation-delay:200ms]">
+                  .
+                </span>
+                <span className="animate-pulse [animation-delay:400ms]">
+                  .
+                </span>
+              </span>
+            </p>
+          </div>
         </div>
-      </div>
-
-      <p className="mt-5 text-sm font-semibold tracking-wide text-slate-700">
-        Loading
-        <span className="ml-1 inline-flex">
-          <span className="animate-pulse">.</span>
-          <span className="animate-pulse [animation-delay:200ms]">.</span>
-          <span className="animate-pulse [animation-delay:400ms]">.</span>
-        </span>
-      </p>
-    </div>
-  </div>
-)}
+      )}
     </>
   );
 }

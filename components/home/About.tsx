@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import AnimatedSection from "@/components/ui/AnimatedSection";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import {
   ArrowRight,
   CheckCircle2,
@@ -14,31 +12,33 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const supabase = createClient();
+type AboutProps = {
+  schoolSettings?: {
+    school_name?: string;
+    tagline?: string;
+    about_title?: string;
+    about_subtitle?: string;
+    about_description?: string;
+    about_image?: string;
+  } | null;
+};
 
-export default function About() {
-  const [school, setSchool] = useState({
-    school_name: "Bright Bal Public School",
-    tagline: "English Medium School",
-    about_title: "Building Strong Foundations for a Brighter Future",
-    about_subtitle:
-      "A nurturing learning environment where education and values grow together.",
-    about_description:
-      "Bright Bal Public School provides quality education, discipline and creativity from Nursery to Class VIII.",
-    about_image: "",
-  });
+const defaultSchool = {
+  school_name: "Bright Bal Public School",
+  tagline: "English Medium School",
+  about_title: "Building Strong Foundations for a Brighter Future",
+  about_subtitle:
+    "A nurturing learning environment where education and values grow together.",
+  about_description:
+    "Bright Bal Public School provides quality education, discipline and creativity from Nursery to Class VIII.",
+  about_image: "",
+};
 
-  useEffect(() => {
-    fetchAbout();
-  }, []);
-
-  async function fetchAbout() {
-    const { data } = await supabase.from("school_settings").select("*").single();
-
-    if (data) {
-      setSchool((prev) => ({ ...prev, ...data }));
-    }
-  }
+export default function About({ schoolSettings }: AboutProps) {
+  const school = {
+    ...defaultSchool,
+    ...schoolSettings,
+  };
 
   const features = [
     {
@@ -78,7 +78,7 @@ export default function About() {
               About Our <span className="text-red-700">School</span>
             </h2>
 
-           <p className="mt-5 text-lg leading-8 text-slate-600 md:text-xl">
+            <p className="mt-5 text-lg leading-8 text-slate-600 md:text-xl">
               {school.about_subtitle}
             </p>
           </div>
@@ -91,14 +91,13 @@ export default function About() {
                 <div className="relative h-[490px] overflow-hidden rounded-[1.7rem]">
                   <Image
                     src={
-                      school.about_image
+                      school.about_image?.trim()
                         ? school.about_image
                         : "/images/school-building.jpg.jpeg"
                     }
                     alt="School"
                     fill
                     className="object-cover transition duration-700 hover:scale-105"
-                    unoptimized
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
@@ -112,6 +111,7 @@ export default function About() {
                     <h3 className="text-3xl font-extrabold tracking-tight">
                       {school.school_name}
                     </h3>
+
                     <p className="mt-2 text-sm text-white/80 md:text-base">
                       {school.tagline}
                     </p>
@@ -119,23 +119,23 @@ export default function About() {
                 </div>
               </div>
 
-             <div className="absolute right-5 top-5 z-20 rounded-2xl border border-slate-100 bg-white/95 p-3 shadow-2xl backdrop-blur-md sm:right-6 sm:top-6 sm:p-4">
-  <div className="flex items-center gap-3 sm:gap-4">
-    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700 sm:h-12 sm:w-12 sm:rounded-2xl">
-      <GraduationCap size={22} />
-    </div>
+              <div className="absolute right-5 top-5 z-20 rounded-2xl border border-slate-100 bg-white/95 p-3 shadow-2xl backdrop-blur-md sm:right-6 sm:top-6 sm:p-4">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700 sm:h-12 sm:w-12 sm:rounded-2xl">
+                    <GraduationCap size={22} />
+                  </div>
 
-    <div>
-      <p className="text-base font-black leading-tight text-slate-900 sm:text-lg">
-        Nursery to VIII
-      </p>
+                  <div>
+                    <p className="text-base font-black leading-tight text-slate-900 sm:text-lg">
+                      Nursery to VIII
+                    </p>
 
-      <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-        English Medium School
-      </p>
-    </div>
-  </div>
-</div>
+                    <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                      English Medium School
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="relative">

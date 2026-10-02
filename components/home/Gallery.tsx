@@ -95,12 +95,13 @@ export default function Gallery({
                   onClick={() => setIndex(i)}
                   className="group relative h-80 cursor-pointer overflow-hidden rounded-3xl bg-white shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
                 >
-                  <Image
-                    src={image.image_url}
-                    alt={image.title}
-                    fill
-                    className="object-cover transition duration-700 group-hover:scale-110"
-                  />
+                 <Image
+  src={image.image_url}
+  alt={image.title}
+  fill
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+  className="object-cover transition duration-700 group-hover:scale-110"
+/>
 
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 transition group-hover:opacity-100" />

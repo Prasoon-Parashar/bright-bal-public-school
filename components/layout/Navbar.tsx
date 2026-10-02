@@ -3,11 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
-
-const supabase = createClient();
 
 type SchoolSettings = {
   school_name: string;
@@ -16,31 +13,22 @@ type SchoolSettings = {
   logo_url: string;
 };
 
-export default function Navbar() {
+type NavbarProps = {
+  schoolSettings?: SchoolSettings;
+};
+
+const defaultSchool: SchoolSettings = {
+  school_name: "Bright Bal Public School",
+  tagline: "English Medium School",
+  admission_open: true,
+  logo_url: "",
+};
+
+export default function Navbar({ schoolSettings }: NavbarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  const [school, setSchool] = useState<SchoolSettings>({
-    school_name: "Bright Bal Public School",
-    tagline: "English Medium School",
-    admission_open: true,
-    logo_url: "",
-  });
-
-  useEffect(() => {
-    fetchSchoolSettings();
-  }, []);
-
-  async function fetchSchoolSettings() {
-    const { data, error } = await supabase
-      .from("school_settings")
-      .select("school_name, tagline, admission_open, logo_url")
-      .single();
-
-    if (!error && data) {
-      setSchool(data);
-    }
-  }
+  const school = schoolSettings ?? defaultSchool;
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -54,7 +42,6 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-red-100 bg-white/95 shadow-lg backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-5 lg:px-8">
-
         {/* ---------- LOGO + SCHOOL NAME ---------- */}
         <Link
           href="/"
@@ -63,20 +50,19 @@ export default function Navbar() {
           <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-red-200 bg-white shadow-sm sm:h-14 sm:w-14">
             <Image
               src={
-                school.logo_url && school.logo_url !== ""
-                  ? `${school.logo_url}?v=${Date.now()}`
+                school.logo_url && school.logo_url.trim() !== ""
+                  ? school.logo_url
                   : "/logo/logo.png.png"
               }
               alt="Bright Bal Public School"
               width={56}
               height={56}
               priority
-              className="h-full w-full object-cover"
-              unoptimized
+              className="h-full w-full object-contain"
             />
           </div>
 
-          {/* SCHOOL NAME - NOW VISIBLE ON MOBILE */}
+          {/* SCHOOL NAME */}
           <div className="min-w-0">
             <h1 className="whitespace-nowrap text-base font-extrabold leading-tight text-red-700 sm:text-xl lg:text-2xl">
               {school.school_name}
