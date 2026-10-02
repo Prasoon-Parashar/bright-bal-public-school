@@ -35,7 +35,6 @@ async function generateRegistrationNumber() {
   return `BBPS2026${String(nextNumber).padStart(5, "0")}`;
 }
 // ---------------- VERHOEFF CHECKSUM ----------------
-
 const d = [
   [0,1,2,3,4,5,6,7,8,9],
   [1,2,3,4,0,6,7,8,9,5],
@@ -161,6 +160,21 @@ const categoryOptions: Record<string, string[]> = {
 const needsTC =
   studentClass &&
   !["Nursery", "LKG", "UKG", "1"].includes(studentClass);
+
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateFileSize(file: File | null, label: string) {
+  if (!file) return true;
+
+  if (file.size > MAX_FILE_SIZE) {
+    alert(
+      `${label} is too large.\n\nMaximum allowed size is 5 MB.\nPlease choose a smaller file.`
+    );
+    return false;
+  }
+
+  return true;
+}
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -305,6 +319,22 @@ if (!studentPhoto || !birthCertificate || !addressProof) {
 
 if (needsTC && !tcFile) {
   alert("Transfer Certificate is required.");
+  return;
+}
+
+if (!validateFileSize(studentPhoto, "Student Photo")) {
+  return;
+}
+
+if (!validateFileSize(birthCertificate, "Birth Certificate")) {
+  return;
+}
+
+if (!validateFileSize(addressProof, "Address Proof")) {
+  return;
+}
+
+if (needsTC && !validateFileSize(tcFile, "Transfer Certificate")) {
   return;
 }
 
