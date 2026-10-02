@@ -15,7 +15,7 @@ export default function DashboardPage() {
 
       <QuickActions />
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid items-start gap-6 lg:grid-cols-2">
         <RecentActivity />
         <RecentEnquiries />
       </div>
