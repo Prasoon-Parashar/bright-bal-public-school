@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, Pencil } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 export default function BackToTop() {
   const [show, setShow] = useState(false);
@@ -36,8 +36,18 @@ export default function BackToTop() {
 
   const radius = 27;
   const circumference = 2 * Math.PI * radius;
+
   const offset =
     circumference - (progress / 100) * circumference;
+
+  /*
+    Arrow rotation:
+
+    Start → ↓
+    Middle → →
+    End → ↑
+  */
+  const arrowRotation = 180 - (progress / 100) * 180;
 
   return (
     <button
@@ -50,23 +60,19 @@ export default function BackToTop() {
           behavior: "smooth",
         })
       }
-      className="group fixed bottom-24 right-5 z-[999] flex h-[62px] w-[62px] items-center justify-center sm:right-7 sm:h-[68px] sm:w-[68px]"
+      className="group fixed bottom-28 right-5 z-[999] flex h-[64px] w-[64px] items-center justify-center sm:right-7 sm:h-[70px] sm:w-[70px]"
     >
-      {/* =====================================================
-          OUTER GLOW
-      ====================================================== */}
+      {/* Outer glow */}
 
       <span className="absolute inset-0 rounded-full bg-[#0aa84f]/10 blur-xl transition-all duration-500 group-hover:bg-[#0aa84f]/20" />
 
-      {/* =====================================================
-          PROGRESS RING
-      ====================================================== */}
+      {/* Colourful progress border */}
 
       <svg
         className="absolute inset-0 h-full w-full -rotate-90"
         viewBox="0 0 64 64"
       >
-        {/* Background ring */}
+        {/* Background border */}
 
         <circle
           cx="32"
@@ -78,7 +84,7 @@ export default function BackToTop() {
           className="text-slate-200"
         />
 
-        {/* Progress */}
+        {/* Colourful progress */}
 
         <circle
           cx="32"
@@ -93,8 +99,6 @@ export default function BackToTop() {
           className="transition-[stroke-dashoffset] duration-150"
         />
 
-        {/* Gradient */}
-
         <defs>
           <linearGradient
             id="progressGradient"
@@ -104,50 +108,46 @@ export default function BackToTop() {
             y2="100%"
           >
             <stop offset="0%" stopColor="#0aa84f" />
+            <stop offset="25%" stopColor="#22c55e" />
             <stop offset="45%" stopColor="#facc15" />
-            <stop offset="75%" stopColor="#f97316" />
-            <stop offset="100%" stopColor="#dc2626" />
+            <stop offset="65%" stopColor="#f97316" />
+            <stop offset="85%" stopColor="#ef4444" />
+            <stop offset="100%" stopColor="#a855f7" />
           </linearGradient>
         </defs>
       </svg>
 
-      {/* =====================================================
-          INNER BUTTON
-      ====================================================== */}
+      {/* Inner button */}
 
       <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#10251a] text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0aa84f] sm:h-12 sm:w-12">
-        {/* Green shine */}
+        
+        {/* Shine */}
 
         <span className="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-700 group-hover:translate-x-full" />
 
-        {/* Pencil */}
+        {/* Animated Arrow */}
 
-        <Pencil
-          size={20}
-          strokeWidth={2.2}
-          className="relative z-10 -rotate-45 text-[#facc15] transition-all duration-500 group-hover:rotate-0 group-hover:scale-110"
-        />
-
-        {/* Arrow */}
-
-        <ArrowUp
-          size={13}
-          strokeWidth={3}
-          className="absolute bottom-2 right-2 z-20 text-white transition-all duration-300 group-hover:-translate-y-0.5"
-        />
+        <span
+          className="relative z-10 flex items-center justify-center transition-transform duration-150"
+          style={{
+            transform: `rotate(${arrowRotation}deg)`,
+          }}
+        >
+          <ArrowUp
+            size={24}
+            strokeWidth={2.8}
+            className="text-white"
+          />
+        </span>
       </span>
 
-      {/* =====================================================
-          TOOLTIP
-      ====================================================== */}
+      {/* Tooltip */}
 
-      <span className="pointer-events-none absolute right-[72px] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 opacity-0 shadow-lg transition-all duration-300 group-hover:right-[76px] group-hover:opacity-100 sm:block">
+      <span className="pointer-events-none absolute right-[76px] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 opacity-0 shadow-lg transition-all duration-300 group-hover:right-[80px] group-hover:opacity-100 sm:block">
         Back to top
       </span>
 
-      {/* =====================================================
-          FLOATING SPARK
-      ====================================================== */}
+      {/* Decorative dots */}
 
       <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500 shadow-sm transition-transform duration-300 group-hover:scale-125" />
 
