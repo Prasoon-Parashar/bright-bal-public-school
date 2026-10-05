@@ -446,55 +446,102 @@ export default function Contact() {
             <div className="overflow-hidden rounded-[2.5rem] border border-slate-200 bg-white shadow-[0_30px_80px_rgba(15,23,42,0.12)]">
               {/* Form Header */}
 
-              <div className="relative overflow-hidden bg-gradient-to-br from-[#9f0000] via-red-700 to-[#e11d2e] px-7 py-8 text-white sm:px-9 sm:py-10">
-                <div className="pointer-events-none absolute -right-16 -top-20 h-60 w-60 rounded-full bg-white/10 blur-3xl" />
+              {/* Form Header */}
 
-                <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-yellow-300/10 blur-3xl" />
+<div className="relative overflow-hidden bg-[#5b1720] px-7 py-8 text-white sm:px-9 sm:py-10">
 
-                <motion.div
-                  animate={{
-                    y: [0, -5, 0],
-                    rotate: [0, 3, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute right-8 top-8 text-white/20"
-                >
-                  <Sparkles size={40} />
-                </motion.div>
+  {/* Top accent */}
+  <div className="absolute left-0 top-0 h-1.5 w-full bg-gradient-to-r from-[#f5c76b] via-[#d94b4b] to-[#8b1e2d]" />
 
-                <div className="relative">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
-                    <MessageSquare size={26} />
-                  </div>
+  {/* Soft background glow */}
+  <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#d94b4b]/25 blur-[90px]" />
 
-                  <h3 className="mt-5 text-3xl font-black sm:text-4xl">
-                    Send Us a Message
-                  </h3>
+  <div className="pointer-events-none absolute -bottom-28 -left-16 h-64 w-64 rounded-full bg-[#f5c76b]/10 blur-[90px]" />
 
-                  <p className="mt-2 max-w-lg leading-7 text-red-100">
-                    Tell us what you need. Fill in the details and our school
-                    team will get back to you.
-                  </p>
+  {/* Decorative circles */}
+  <div className="pointer-events-none absolute right-8 top-8 h-28 w-28 rounded-full border border-[#f5c76b]/15" />
 
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/90">
-                      Admissions
-                    </span>
+  <div className="pointer-events-none absolute right-14 top-14 h-16 w-16 rounded-full border border-white/10" />
 
-                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/90">
-                      School Info
-                    </span>
+  {/* Decorative sparkle */}
+  <motion.div
+    animate={{
+      y: [0, -6, 0],
+      rotate: [0, 8, 0],
+      scale: [1, 1.05, 1],
+    }}
+    transition={{
+      duration: 4.5,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+    className="pointer-events-none absolute right-10 top-9 text-[#f5c76b]/30"
+  >
+    <Sparkles size={42} />
+  </motion.div>
 
-                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/90">
-                      Enquiries
-                    </span>
-                  </div>
-                </div>
-              </div>
+  {/* Main content */}
+  <div className="relative">
+
+    {/* Icon */}
+    <motion.div
+      animate={{
+        y: [0, -4, 0],
+        rotate: [0, 3, 0],
+      }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#f5c76b]/25 bg-white/10 text-[#f5c76b] shadow-lg backdrop-blur-sm"
+    >
+      <MessageSquare size={27} />
+    </motion.div>
+
+    {/* Small label */}
+    <div className="mt-5 flex items-center gap-2">
+      <span className="h-1.5 w-1.5 rounded-full bg-[#f5c76b]" />
+
+      <span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#f5c76b]">
+        We&apos;re Here to Help
+      </span>
+    </div>
+
+    {/* Heading */}
+    <h3 className="mt-2 max-w-xl text-3xl font-black tracking-tight text-white sm:text-4xl">
+      Send Us a Message
+    </h3>
+
+    {/* Description */}
+    <p className="mt-3 max-w-lg text-sm leading-7 text-rose-100 sm:text-base">
+      Tell us what you need. Fill in the details and our school
+      team will get back to you.
+    </p>
+
+    {/* Categories */}
+    <div className="mt-6 flex flex-wrap gap-2">
+
+      <span className="rounded-full border border-white/15 bg-white/[0.08] px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-[#f5c76b]/50 hover:bg-[#f5c76b]/10">
+        Admissions
+      </span>
+
+      <span className="rounded-full border border-white/15 bg-white/[0.08] px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-[#f5c76b]/50 hover:bg-[#f5c76b]/10">
+        School Info
+      </span>
+
+      <span className="rounded-full border border-white/15 bg-white/[0.08] px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-[#f5c76b]/50 hover:bg-[#f5c76b]/10">
+        Enquiries
+      </span>
+
+    </div>
+
+  </div>
+
+  {/* Bottom decorative line */}
+  <div className="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#f5c76b]/70 to-transparent" />
+
+</div>
 
               {/* Form */}
 
