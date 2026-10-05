@@ -112,7 +112,7 @@ export default function Footer() {
           <div className="space-y-5">
             <div className="flex items-center gap-4">
               <Image
-                src="/logo/logo.png.png"
+                src="/logo/logo.png.png" 
                 alt="School Logo"
                 width={72}
                 height={72}
