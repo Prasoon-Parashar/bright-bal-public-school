@@ -1,3 +1,4 @@
+import SectionDivider from "@/components/home/SectionDivider";
 import { createClient } from "@/lib/supabase/server";
 import { getSchoolSettings } from "@/lib/supabase/getSchoolSettings";
 
@@ -35,22 +36,35 @@ export default async function Home() {
 
       <About schoolSettings={school} />
 
+      <SectionDivider />
+
       <WhyChooseUs />
+
+
 
       <Stats />
 
+
+<SectionDivider />
+
       <PrincipalMessage />
 
+<SectionDivider />
       <Facilities />
 
+<SectionDivider />
       <Gallery images={galleryResult.data ?? []} />
 
+<SectionDivider />
       <AdmissionProcess />
 
+<SectionDivider />
       <Testimonials />
 
+<SectionDivider />
       <LatestNews />
 
+<SectionDivider />
       <Contact />
 
       <ScrollProgress />
