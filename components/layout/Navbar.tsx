@@ -167,17 +167,18 @@ export default function Navbar({ schoolSettings }: NavbarProps) {
               <Link
                 href="/admissions"
                 
-className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#C62828] px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-600/25 ${transparentHome ? "" : ""}`}
+className="group relative isolate overflow-hidden rounded-2xl bg-[#C62828] px-6 py-3 font-bold text-white shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#B71C1C] hover:shadow-xl hover:shadow-red-600/30 animate-[applyPulse_3s_ease-in-out_infinite]"
 
               >
-                <span className="relative z-10">
-                  Apply Now
-                </span>
+              <span className="relative z-10 inline-flex items-center gap-2">
+  Apply Now
+  <ArrowRight size={18} />
+</span>
 
-                <ArrowRight
-                  size={15}
-                  className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
-                />
+                <span
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[applyShine_4s_ease-in-out_infinite]"
+/>
 
                 {!transparentHome && (
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-indigo-700 to-blue-600 transition-transform duration-500 group-hover:translate-x-0" />

@@ -62,3 +62,181 @@ body {
     stroke-dashoffset: -32;
   }
 }
+
+@keyframes applyPulse {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(198, 40, 40, 0.18);
+  }
+
+  50% {
+    box-shadow: 0 6px 22px rgba(198, 40, 40, 0.38);
+  }
+}
+
+@keyframes applyShine {
+  0%, 65% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\\[applyPulse_3s_ease-in-out_infinite\\],
+  .animate-\\[applyShine_4s_ease-in-out_infinite\\] {
+    animation: none !important;
+  }
+}
+
+/* ==========================================
+   NOTICES PAGE ANIMATIONS
+========================================== */
+
+@keyframes notice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes notice-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -22px, 0);
+  }
+}
+
+@keyframes notice-float-reverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 18px, 0);
+  }
+}
+
+.notice-enter {
+  animation: notice-enter 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.notice-enter-delay {
+  animation-delay: 180ms;
+}
+
+.notice-orb-red {
+  animation: notice-float 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.notice-orb-blue {
+  animation: notice-float-reverse 11s ease-in-out infinite;
+  will-change: transform;
+}
+
+.notice-card {
+  animation: notice-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Keyboard accessibility */
+.notice-card:focus-within {
+  outline: 2px solid #1565c0;
+  outline-offset: 4px;
+}
+
+/* Respect accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+  .notice-enter,
+  .notice-card,
+  .notice-orb-red,
+  .notice-orb-blue {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================
+   ADMISSION HERO ANIMATIONS
+========================================== */
+
+@keyframes admission-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admission-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -20px, 0);
+  }
+}
+
+@keyframes admission-float-reverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 18px, 0);
+  }
+}
+
+.admission-enter {
+  animation: admission-enter 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.admission-enter-delay {
+  animation: admission-enter 850ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
+.admission-orb-red {
+  animation: admission-float 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.admission-orb-blue {
+  animation: admission-float-reverse 11s ease-in-out infinite;
+  will-change: transform;
+}
+
+.admission-feature {
+  animation: admission-enter 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Accessibility: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .admission-enter,
+  .admission-enter-delay,
+  .admission-orb-red,
+  .admission-orb-blue,
+  .admission-feature {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
