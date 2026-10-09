@@ -166,7 +166,9 @@ export default function Navbar({ schoolSettings }: NavbarProps) {
             {school.admission_open ? (
               <Link
                 href="/admissions"
-                className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-4.5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 ${transparentHome ? "bg-[#079447] shadow-lg shadow-emerald-900/20 hover:bg-[#067d3b]" : "bg-gradient-to-r from-red-700 via-red-600 to-rose-600 shadow-lg shadow-red-600/20 hover:shadow-xl hover:shadow-red-600/25"}`}
+                
+className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#C62828] px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-600/25 ${transparentHome ? "" : ""}`}
+
               >
                 <span className="relative z-10">
                   Apply Now

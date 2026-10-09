@@ -8,6 +8,8 @@ import ThemeProvider from "@/components/providers/ThemeProvider";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { createClient } from "@/lib/supabase/server";
 import MaintenanceGate from "@/components/layout/MaintenanceGate";
+import WhatsAppButton from "@/components/common/WhatsAppButton";
+import BackToTop from "@/components/common/BackToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -118,7 +120,11 @@ export default async function RootLayout({
             // Normal Website (Navbar + Footer Included)
             <MaintenanceGate>
               <SiteChrome>{children}</SiteChrome>
+               <WhatsAppButton />
+  <BackToTop />
+           
             </MaintenanceGate>
+            
           )}
         </ThemeProvider>
       </body>

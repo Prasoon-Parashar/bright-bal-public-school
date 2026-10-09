@@ -45,9 +45,9 @@ export default async function Home() {
       <Stats />
 
 
-<SectionDivider />
+{false && <SectionDivider />}
 
-      <PrincipalMessage />
+      {false && <PrincipalMessage />}
 
 <SectionDivider />
       <Facilities />
