@@ -1,10 +1,11 @@
 "use client";
-
+import NavbarBus from "./NavbarBus";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+
 
 type SchoolSettings = {
   school_name: string;
@@ -54,7 +55,7 @@ export default function Navbar({ schoolSettings }: NavbarProps) {
     <header className="fixed inset-x-0 top-0 z-50">
       {/* Main Navbar */}
       <div
-        className={`border-b backdrop-blur-2xl transition-colors duration-300 ${
+       className={`relative border-b backdrop-blur-2xl transition-colors duration-300 ${
           transparentHome
             ? "border-transparent bg-transparent shadow-none"
             : "border-slate-200/70 bg-white/90 shadow-[0_8px_35px_rgba(15,23,42,0.07)]"
@@ -206,6 +207,8 @@ className="group relative isolate overflow-hidden rounded-2xl bg-[#C62828] px-6 
             {isOpen ? <X size={23} /> : <Menu size={23} />}
           </button>
         </div>
+
+        <NavbarBus transparent={transparentHome} />
 
         {/* Premium Accent Line */}
         <div className={`h-[2px] w-full bg-gradient-to-r from-red-600 via-indigo-600 to-blue-500 transition-opacity duration-300 ${transparentHome ? "opacity-0" : "opacity-80"}`} />
