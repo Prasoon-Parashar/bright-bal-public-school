@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import { groupCollections, type GalleryRow } from "@/lib/gallery";
 
 import {
   Images,
@@ -31,6 +32,12 @@ export default function Gallery({
   images: GalleryImage[];
 }) {
   const [index, setIndex] = useState(-1);
+
+  const collections = groupCollections(
+  images as GalleryRow[]
+);
+
+const visibleCollections = collections.slice(0, 6);
 
   return (
     <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
@@ -195,9 +202,9 @@ export default function Gallery({
               }}
               className="mt-14 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {images.slice(0, 6).map((image, i) => (
+              {visibleCollections.map((collection, i) => (
                 <motion.div
-                  key={image.id}
+               key={collection.key}
                   variants={{
                     hidden: {
                       opacity: 0,
@@ -223,8 +230,8 @@ export default function Gallery({
                   {/* Inner image wrapper */}
                   <div className="relative h-full overflow-hidden rounded-[1.65rem]">
                     <Image
-                      src={image.image_url}
-                      alt={image.title}
+                      src={collection.cover}
+                      alt={collection.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
@@ -244,14 +251,14 @@ export default function Gallery({
                     {/* Category */}
                     <div className="absolute left-5 top-5">
                       <span className="inline-flex items-center rounded-full border border-white/20 bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-md">
-                        {image.category || "School Gallery"}
+                        {collection.category || "School Gallery"}
                       </span>
                     </div>
 
                                         {/* Bottom content */}
                     <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
                       <h3 className="text-xl font-black text-white sm:text-2xl">
-                        {image.title}
+                        {collection.title}
                       </h3>
 
                       <div className="mt-2 flex items-center gap-2 text-xs font-medium text-red-200">
@@ -262,8 +269,8 @@ export default function Gallery({
                       {/* View button */}
                       <div className="mt-4 flex items-center justify-between">
                         <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-white/80">
-                          <Eye size={15} />
-                          View Photo
+                         <Images size={15} />
+View {collection.photos.length} Photos
                         </span>
 
                         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-slate-900 transition-all duration-300 group-hover:rotate-[-10deg] group-hover:bg-[#1565C0] group-hover:text-white">
