@@ -1,24 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
-import GalleryForm from "./GalleryForm";
-import GalleryList from "./GalleryList";
+import GalleryManager from "@/components/admin/GalleryManager";
+import type { GalleryRow } from "@/lib/gallery";
 
-export const dynamic = "force-dynamic";
-
-export default async function GalleryPage() {
+export default async function AdminGalleryPage() {
   const supabase = await createClient();
 
-  const { data: images } = await supabase
+  const { data } = await supabase
     .from("gallery")
-    .select("*")
+    .select("id,title,image_url,category,description,created_at")
     .order("created_at", { ascending: false });
 
-  return (
-    <section className="space-y-10">
-
-      <GalleryForm />
-
-      <GalleryList images={images || []} />
-
-    </section>
-  );
+  return <GalleryManager initialRows={(data ?? []) as GalleryRow[]} />;
 }

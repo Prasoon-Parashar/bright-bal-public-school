@@ -2,6 +2,7 @@ import { getSchoolSettings } from "@/lib/supabase/getSchoolSettings";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SiteChromeClient from "@/components/layout/SiteChromeClient";
+import HideOnAdmin from "@/components/layout/HideOnAdmin";
 
 export default async function SiteChrome({
   children,
@@ -12,22 +13,27 @@ export default async function SiteChrome({
 
   return (
     <SiteChromeClient>
-      <Navbar
-        schoolSettings={
-          school
-            ? {
-                school_name: school.school_name,
-                tagline: school.tagline,
-                admission_open: school.admission_open,
-                logo_url: school.logo_url,
-              }
-            : undefined
-        }
-      />
+      {/* Navbar and Footer are hidden automatically on /admin pages */}
+      <HideOnAdmin>
+        <Navbar
+          schoolSettings={
+            school
+              ? {
+                  school_name: school.school_name,
+                  tagline: school.tagline,
+                  admission_open: school.admission_open,
+                  logo_url: school.logo_url,
+                }
+              : undefined
+          }
+        />
+      </HideOnAdmin>
 
       <main>{children}</main>
 
-      <Footer />
+      <HideOnAdmin>
+        <Footer />
+      </HideOnAdmin>
     </SiteChromeClient>
   );
 }

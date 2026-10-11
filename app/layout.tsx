@@ -10,6 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 import MaintenanceGate from "@/components/layout/MaintenanceGate";
 import WhatsAppButton from "@/components/common/WhatsAppButton";
 import BackToTop from "@/components/common/BackToTop";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,6 +83,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const requestHeaders = await headers();
+const pathname = requestHeaders.get("x-pathname") ?? "";
   const supabase = await createClient();
 
   const { data } = await supabase
