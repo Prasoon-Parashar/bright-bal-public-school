@@ -7,7 +7,9 @@ export default async function AdminGalleryPage() {
 
   const { data } = await supabase
     .from("gallery")
-    .select("id,title,image_url,category,description,created_at")
+    .select(
+  "id,title,image_url,category,description,image_title,image_description,created_at"
+)
     .order("created_at", { ascending: false });
 
   return <GalleryManager initialRows={(data ?? []) as GalleryRow[]} />;

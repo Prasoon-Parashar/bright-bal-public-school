@@ -79,6 +79,9 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
 const [manageInputKey, setManageInputKey] = useState(0);
 
 const [manageBusy, setManageBusy] = useState(false);
+  const [manageMeta, setManageMeta] = useState<Record<number, { title: string; description: string }>>({});
+  const [photoDrafts, setPhotoDrafts] = useState<Record<string, { title: string; description: string }>>({});
+  const [savingPhotoId, setSavingPhotoId] = useState<string | number | null>(null);
 
 
 
@@ -196,7 +199,7 @@ const [manageBusy, setManageBusy] = useState(false);
 
         .insert(uploaded)
 
-        .select("id,title,image_url,category,description,created_at");
+        .select("id,title,image_url,category,description,image_title,image_description,created_at");
 
 
 
@@ -359,7 +362,7 @@ async function addPhotosToCollection(c: Collection) {
 
       .insert(newRows)
 
-      .select("id,title,image_url,category,description,created_at");
+      .select("id,title,image_url,category,description,image_title,image_description,created_at");
 
 
 
@@ -423,6 +426,33 @@ async function addPhotosToCollection(c: Collection) {
 
 
 
+
+  async function savePhotoDetails(photo: GalleryRow) {
+    const draft = photoDrafts[String(photo.id)] ?? {
+      title: photo.image_title ?? "",
+      description: photo.image_description ?? "",
+    };
+    setSavingPhotoId(photo.id);
+    setMessage(null);
+    const { error } = await supabase
+      .from("gallery")
+      .update({
+        image_title: draft.title.trim() || null,
+        image_description: draft.description.trim() || null,
+      })
+      .eq("id", photo.id);
+    if (error) {
+      setMessage({ type: "error", text: `Could not save photo details: ${error.message}` });
+    } else {
+      setRows((prev) => prev.map((row) => row.id === photo.id ? {
+        ...row,
+        image_title: draft.title.trim() || null,
+        image_description: draft.description.trim() || null,
+      } : row));
+      setMessage({ type: "ok", text: "Photo title and description saved." });
+    }
+    setSavingPhotoId(null);
+  }
 
   async function removeRows(ids: GalleryRow["id"][], urls: string[]) {
 
@@ -1042,42 +1072,24 @@ async function addPhotosToCollection(c: Collection) {
 
 </div>
 
-                      {c.photos.map((p) => (
-
-                        <div key={p.id} className="group relative">
-
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-
-
-
-                          <img src={p.image_url} alt={c.title} className="aspect-square w-full rounded-xl object-cover" />
-
-                          <button
-
-                            type="button"
-
-                            aria-label="Delete photo"
-
-                            onClick={() => {
-
-
-
-                              if (confirm("Delete this photo?")) removeRows([p.id], [p.image_url]);
-
-                            }}
-
-                            className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition hover:bg-[#C62828] group-hover:opacity-100"
-
-                          >
-
-                            <X size={14} />
-
-                          </button>
-
-                        </div>
-
-                      ))}
-
+                      {c.photos.map((p) => {
+                        const draft = photoDrafts[String(p.id)] ?? {
+                          title: p.image_title ?? "",
+                          description: p.image_description ?? "",
+                        };
+                        return (
+                          <div key={p.id} className="group relative rounded-xl border border-slate-200 bg-white p-2">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={p.image_url} alt={p.image_title || c.title} className="aspect-square w-full rounded-lg object-cover" />
+                            <button type="button" aria-label="Delete photo" onClick={() => { if (confirm("Delete this photo?")) removeRows([p.id], [p.image_url]); }} className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-[#C62828]"><X size={14} /></button>
+                            <label className="mt-2 block text-xs font-bold text-slate-600">Photo title</label>
+                            <input value={draft.title} onChange={(e) => setPhotoDrafts((prev) => ({ ...prev, [String(p.id)]: { ...draft, title: e.target.value } }))} maxLength={120} placeholder="Photo title" className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-[#101B33] outline-none focus:border-[#C62828]" />
+                            <label className="mt-2 block text-xs font-bold text-slate-600">Description</label>
+                            <textarea value={draft.description} onChange={(e) => setPhotoDrafts((prev) => ({ ...prev, [String(p.id)]: { ...draft, description: e.target.value } }))} maxLength={400} rows={3} placeholder="Photo description" className="mt-1 w-full resize-y rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-[#101B33] outline-none focus:border-[#C62828]" />
+                            <button type="button" disabled={savingPhotoId === p.id} onClick={() => savePhotoDetails(p)} className="mt-2 w-full rounded-lg bg-[#1565C0] px-2 py-2 text-xs font-bold text-white disabled:opacity-50">{savingPhotoId === p.id ? "Saving..." : "Save details"}</button>
+                          </div>
+                        );
+                      })}
                     </div>
 
                   )}

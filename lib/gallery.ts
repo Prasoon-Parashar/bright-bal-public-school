@@ -9,6 +9,8 @@ export type GalleryRow = {
   image_url: string;
   category: string | null;
   description?: string | null;
+  image_title?: string | null;
+  image_description?: string | null;
   created_at?: string | null;
 };
 
