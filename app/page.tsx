@@ -11,7 +11,7 @@ import Facilities from "@/components/home/Facilities";
 import Gallery from "@/components/home/Gallery";
 import AdmissionProcess from "@/components/home/AdmissionProcess";
 import Testimonials from "@/components/home/Testimonials";
-import LatestNews from "@/components/home/LatestNews";
+import NoticeBoard from "@/components/home/NoticeBoard";
 import Contact from "@/components/home/Contact";
 import ScrollProgress from "@/components/common/ScrollProgress";
 import WhatsAppButton from "@/components/common/WhatsAppButton";
@@ -65,7 +65,7 @@ export default async function Home() {
       <Testimonials />
 
 <SectionDivider />
-      <LatestNews />
+     <NoticeBoard />
 
 <SectionDivider />
       <Contact />
