@@ -154,7 +154,7 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
       {/* ================= UPLOAD FORM ================= */}
       <form
         onSubmit={handleUpload}
-        className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm [color-scheme:light] sm:p-8"
       >
         <div className="flex items-center gap-4">
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-[#C62828]">
@@ -174,7 +174,7 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
               value={title}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="e.g. Janmashtami"
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white text-[#101B33] caret-[#C62828] placeholder:text-slate-400 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
             />
             <datalist id="gallery-titles">
               {titles.map((t) => (
@@ -191,7 +191,7 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="e.g. Cultural, Academics, Sports"
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white text-[#101B33] caret-[#C62828] placeholder:text-slate-400 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
             />
             <datalist id="gallery-categories">
               {categories.map((c) => (
@@ -212,7 +212,7 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
             rows={3}
             maxLength={400}
             placeholder="e.g. Students celebrated Janmashtami with dance, songs and dahi handi."
-            className="mt-2 w-full resize-none rounded-2xl border border-slate-200 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
+            className="mt-2 w-full resize-none rounded-2xl border border-slate-200 bg-white text-[#101B33] caret-[#C62828] placeholder:text-slate-400 px-4 py-3.5 outline-none transition focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
           />
           <p className="mt-1.5 text-xs text-slate-400">{description.length}/400 • shown with this collection on the website</p>
         </div>
@@ -356,7 +356,7 @@ export default function GalleryManager({ initialRows }: { initialRows: GalleryRo
                         rows={3}
                         maxLength={400}
                         placeholder="Write a short description for this collection"
-                        className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
+                        className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#101B33] caret-[#C62828] placeholder:text-slate-400 outline-none focus:border-[#C62828] focus:ring-4 focus:ring-red-100"
                       />
                       <div className="mt-3 flex gap-2">
                         <button
