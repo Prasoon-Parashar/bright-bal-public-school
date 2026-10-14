@@ -4,16 +4,15 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(request: Request) {
   try {
-    if (!process.env.OPENAI_API_KEY) {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    // Check credentials when a request arrives, not during build.
+    if (!apiKey) {
       return NextResponse.json(
         { error: "AI chatbot is not configured yet." },
-        { status: 500 }
+        { status: 503 }
       );
     }
 
@@ -34,23 +33,25 @@ export async function POST(request: Request) {
       );
     }
 
-    const safeMessages = messages.map((message: {
-      role: string;
-      content: string;
-    }) => {
-      if (
-        !["user", "assistant"].includes(message.role) ||
-        typeof message.content !== "string" ||
-        message.content.length > 4000
-      ) {
-        throw new Error("Invalid message format.");
-      }
+    const safeMessages = messages.map(
+      (message: { role: string; content: string }) => {
+        if (
+          !["user", "assistant"].includes(message.role) ||
+          typeof message.content !== "string" ||
+          message.content.length > 4000
+        ) {
+          throw new Error("Invalid message format.");
+        }
 
-      return {
-        role: message.role as "user" | "assistant",
-        content: message.content,
-      };
-    });
+        return {
+          role: message.role as "user" | "assistant",
+          content: message.content,
+        };
+      }
+    );
+
+    // Initialize the client only after confirming the API key exists.
+    const openai = new OpenAI({ apiKey });
 
     const response = await openai.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
