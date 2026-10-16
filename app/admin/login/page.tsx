@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin");
+      window.location.href = "/admin/dashboard";
       router.refresh();
     } catch (error) {
       console.error(error);

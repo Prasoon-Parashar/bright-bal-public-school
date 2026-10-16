@@ -1,10 +1,9 @@
+
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({
-    request,
-  });
+  let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,53 +13,51 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-
-          response = NextResponse.next({
-            request,
+          cookiesToSet.forEach(({ name, value }) => {
+            request.cookies.set(name, value);
           });
 
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
+          response = NextResponse.next({ request });
+
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
         },
       },
     }
   );
 
-  // Check current logged-in user
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-
-  // Login page ko public rehne do
   const isLoginPage = pathname === "/admin/login";
-
-  // Baaki saare /admin routes protected
   const isAdminRoute =
     pathname.startsWith("/admin") && !isLoginPage;
 
-  // Login nahi hai aur admin page khol raha hai
-  if (!user && isAdminRoute) {
+  const adminEmails = (process.env.ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+
+  const isAuthorizedAdmin =
+    !error &&
+    !!user?.email &&
+    adminEmails.includes(user.email.toLowerCase());
+
+  // Unauthenticated or unauthorized users cannot access admin pages.
+  if (isAdminRoute && !isAuthorizedAdmin) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
+    url.search = "";
 
     return NextResponse.redirect(url);
   }
 
-  // Already logged in hai aur login page khol raha hai
-  if (user && isLoginPage) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/dashboard";
-
-    return NextResponse.redirect(url);
-  }
-
+  // Keep the login page public. Do not redirect logged-in users here;
+  // the login page itself must remain accessible while we diagnose sessions.
   return response;
 }
