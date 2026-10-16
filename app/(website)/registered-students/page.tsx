@@ -203,6 +203,15 @@ const motherMobile = form.elements.namedItem(
       return;
 
     }
+    const apaarId = form.elements.namedItem(
+  "apaar_id"
+) as HTMLInputElement | null;
+
+if (!apaarId?.value.trim()) {
+  setMessage("APAAR ID is required.");
+  apaarId?.focus();
+  return;
+}
 
 if (
   !fatherMobile ||
@@ -767,6 +776,7 @@ if (!hasBirthCertificate && !hasAffidavit) {
               </SelectField>
 
               <Field
+              required
 
                 label="Aadhaar Number"
 
@@ -786,13 +796,15 @@ if (!hasBirthCertificate && !hasAffidavit) {
 
               <Field
 
+              required
+
                 label="APAAR ID"
 
                 name="apaar_id"
 
                 maxLength={20}
 
-                placeholder="Enter APAAR ID if available"
+                placeholder="Enter APAAR ID"
 
               />
 
