@@ -23,36 +23,78 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+const [successMessage, setSuccessMessage] = useState("");
 
   async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
+  e.preventDefault();
 
-    setLoading(true);
-    setErrorMessage("");
+  setLoading(true);
+  setErrorMessage("");
+  setSuccessMessage("");
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
 
-      if (error) {
-        setErrorMessage(error.message);
-        return;
-      }
-
-      window.location.href = "/admin/dashboard";
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-
+    if (error) {
+      console.error("Admin login failed:", error.message);
       setErrorMessage(
-        "Unable to connect to the server. Please check your Supabase configuration."
+        "Invalid email or password. Please check your details and try again."
       );
-    } finally {
-      setLoading(false);
+      return;
     }
+
+    window.location.href = "/admin/dashboard";
+  } catch (error) {
+    console.error("Login request failed:", error);
+    setErrorMessage(
+      "Unable to connect. Please check your internet connection and try again."
+    );
+  } finally {
+    setLoading(false);
   }
+}
+
+async function handleForgotPassword() {
+  setErrorMessage("");
+  setSuccessMessage("");
+
+  if (!email.trim()) {
+    setErrorMessage("Enter your email address first.");
+    return;
+  }
+
+  setResetLoading(true);
+
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      {
+        redirectTo: `${window.location.origin}/admin/reset-password`,
+      }
+    );
+
+    if (error) {
+      console.error("Password reset request failed:", error.message);
+      setErrorMessage(
+        "Could not send the reset email. Check your email and Supabase settings."
+      );
+      return;
+    }
+
+    setSuccessMessage(
+      "If an account exists for this email, a password reset link has been sent. Check your inbox and spam folder."
+    );
+  } catch (error) {
+    console.error("Password reset failed:", error);
+    setErrorMessage("Unable to send the reset email. Please try again.");
+  } finally {
+    setResetLoading(false);
+  }
+}
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-red-950 via-red-800 to-slate-950 px-6 py-12">
@@ -214,6 +256,15 @@ export default function AdminLoginPage() {
               </div>
             )}
 
+            {successMessage && (
+  <div
+    role="status"
+    className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
+  >
+    {successMessage}
+  </div>
+)}
+
 
             {/* Button */}
 
@@ -239,6 +290,15 @@ export default function AdminLoginPage() {
               )}
 
             </button>
+
+            <button
+  type="button"
+  onClick={handleForgotPassword}
+  disabled={resetLoading || loading}
+  className="w-full py-2 text-sm font-semibold text-red-700 hover:text-red-900 disabled:opacity-60"
+>
+  {resetLoading ? "Sending reset link..." : "Forgot Password?"}
+</button>
 
           </form>
 

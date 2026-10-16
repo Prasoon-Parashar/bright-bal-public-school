@@ -34,9 +34,12 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-  const isLoginPage = pathname === "/admin/login";
-  const isAdminRoute =
-    pathname.startsWith("/admin") && !isLoginPage;
+ const isPublicAdminAuthPage =
+  pathname === "/admin/login" ||
+  pathname === "/admin/reset-password";
+
+const isAdminRoute =
+  pathname.startsWith("/admin") && !isPublicAdminAuthPage;
 
   const adminEmails = (process.env.ADMIN_EMAILS ?? "")
     .split(",")
