@@ -60,7 +60,7 @@ export default function BackToTop() {
           behavior: "smooth",
         })
       }
-      className="group fixed bottom-28 right-5 z-[999] flex h-[64px] w-[64px] items-center justify-center sm:right-7 sm:h-[70px] sm:w-[70px]"
+      className="group fixed bottom-28 right-5 z-[998] flex h-[64px] w-[64px] items-center justify-center sm:bottom-32 sm:right-7 sm:h-[70px] sm:w-[70px]"
     >
       {/* Outer glow */}
 
@@ -149,7 +149,7 @@ export default function BackToTop() {
 
       {/* Decorative dots */}
 
-      <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500 shadow-sm transition-transform duration-300 group-hover:scale-125" />
+
 
       <span className="absolute -bottom-1 -left-1 h-2.5 w-2.5 rounded-full bg-[#0aa84f] transition-transform duration-300 group-hover:scale-125" />
     </button>

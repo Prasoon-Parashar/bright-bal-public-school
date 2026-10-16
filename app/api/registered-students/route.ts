@@ -101,6 +101,10 @@ let supabase: any;
       guardian_mobile: textValue(data, "guardian_mobile"),
       alternate_mobile: textValue(data, "alternate_mobile"),
       guardian_email: textValue(data, "guardian_email"),
+      father_name: textValue(data, "father_name"),
+father_mobile: textValue(data, "father_mobile"),
+mother_name: textValue(data, "mother_name"),
+mother_mobile: textValue(data, "mother_mobile"),
       address_line: textValue(data, "address_line"),
       city: textValue(data, "city"),
       state: textValue(data, "state"),
@@ -139,6 +143,10 @@ let supabase: any;
       fields.guardian_name,
       fields.guardian_relation,
       fields.guardian_mobile,
+      fields.father_name,
+fields.father_mobile,
+fields.mother_name,
+fields.mother_mobile,
       fields.address_line,
       fields.city,
       fields.state,
@@ -179,6 +187,15 @@ let supabase: any;
         { status: 400 }
       );
     }
+    if (
+  !validMobile(fields.father_mobile) ||
+  !validMobile(fields.mother_mobile)
+) {
+  return NextResponse.json(
+    { error: "Enter valid 10-digit mobile numbers for both parents." },
+    { status: 400 }
+  );
+}
 
     for (const mobile of [
       fields.alternate_mobile,

@@ -180,11 +180,13 @@ export default function RegisteredStudentsPage() {
 
     ) as HTMLInputElement | null;
 
-    const mobile = form.elements.namedItem(
+  const fatherMobile = form.elements.namedItem(
+  "father_mobile"
+) as HTMLInputElement | null;
 
-      "guardian_mobile"
-
-    ) as HTMLInputElement | null;
+const motherMobile = form.elements.namedItem(
+  "mother_mobile"
+) as HTMLInputElement | null;
 
     const email = form.elements.namedItem(
 
@@ -202,15 +204,23 @@ export default function RegisteredStudentsPage() {
 
     }
 
-    if (mobile && !/^[6-9]\d{9}$/.test(mobile.value)) {
+if (
+  !fatherMobile ||
+  !/^[6-9]\d{9}$/.test(fatherMobile.value)
+) {
+  setMessage("Enter a valid 10-digit father's mobile number.");
+  fatherMobile?.focus();
+  return;
+}
 
-      setMessage("Enter a valid 10-digit Indian mobile number.");
-
-      mobile.focus();
-
-      return;
-
-    }
+if (
+  !motherMobile ||
+  !/^[6-9]\d{9}$/.test(motherMobile.value)
+) {
+  setMessage("Enter a valid 10-digit mother's mobile number.");
+  motherMobile?.focus();
+  return;
+}
 
     if (email?.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
 
@@ -860,101 +870,66 @@ if (!hasBirthCertificate && !hasAffidavit) {
 
           >
 
-            <div className="grid gap-5 sm:grid-cols-2">
+           <div className="grid gap-5 sm:grid-cols-2">
+  <Field
+    label="Father's Full Name"
+    name="father_name"
+    required
+    maxLength={100}
+    placeholder="Enter father's full name"
+  />
 
-              <Field label="Parent / Guardian Full Name" name="guardian_name" required />
+  <Field
+    label="Father's Mobile Number"
+    name="father_mobile"
+    type="tel"
+    inputMode="numeric"
+    maxLength={10}
+    pattern="[6-9][0-9]{9}"
+    placeholder="10-digit Indian mobile number"
+    required
+    onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
+  />
 
-              <SelectField label="Relationship with Student" name="guardian_relation" required>
+  <Field
+    label="Mother's Full Name"
+    name="mother_name"
+    required
+    maxLength={100}
+    placeholder="Enter mother's full name"
+  />
 
-                <option value="">Select relationship</option>
+  <Field
+    label="Mother's Mobile Number"
+    name="mother_mobile"
+    type="tel"
+    inputMode="numeric"
+    maxLength={10}
+    pattern="[6-9][0-9]{9}"
+    placeholder="10-digit Indian mobile number"
+    required
+    onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
+  />
 
-                <option value="Father">Father</option>
+  <Field
+    label="Email Address (optional)"
+    name="guardian_email"
+    type="email"
+    maxLength={254}
+    placeholder="parent@example.com"
+  />
 
-                <option value="Mother">Mother</option>
-
-                <option value="Guardian">Guardian</option>
-
-                <option value="Other">Other</option>
-
-              </SelectField>
-
-              <Field
-
-                label="Parent / Guardian Mobile Number"
-
-                name="guardian_mobile"
-
-                type="tel"
-
-                inputMode="numeric"
-
-                maxLength={10}
-
-                pattern="[6-9][0-9]{9}"
-
-                placeholder="10-digit Indian mobile number"
-
-                required
-
-                onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
-
-              />
-
-              <Field
-
-                label="Alternate Mobile Number"
-
-                name="alternate_mobile"
-
-                type="tel"
-
-                inputMode="numeric"
-
-                maxLength={10}
-
-                pattern="[6-9][0-9]{9}"
-
-                placeholder="Optional 10-digit number"
-
-                onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
-
-              />
-
-              <Field
-
-                label="Email Address (optional)"
-
-                name="guardian_email"
-
-                type="email"
-
-                maxLength={254}
-
-                placeholder="parent@example.com"
-
-              />
-
-              <Field
-
-                label="Emergency Contact (optional)"
-
-                name="emergency_contact"
-
-                type="tel"
-
-                inputMode="numeric"
-
-                maxLength={10}
-
-                pattern="[6-9][0-9]{9}"
-
-                placeholder="10-digit number"
-
-                onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
-
-              />
-
-            </div>
+  <Field
+    label="Emergency Contact (optional)"
+    name="emergency_contact"
+    type="tel"
+    inputMode="numeric"
+    maxLength={10}
+    pattern="[6-9][0-9]{9}"
+    placeholder="10-digit number"
+    onInput={(value) => value.replace(/\D/g, "").slice(0, 10)}
+  />
+</div>
 
           </FormSection>
 

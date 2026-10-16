@@ -14,8 +14,6 @@ import Testimonials from "@/components/home/Testimonials";
 import NoticeBoard from "@/components/home/NoticeBoard";
 import Contact from "@/components/home/Contact";
 import ScrollProgress from "@/components/common/ScrollProgress";
-import WhatsAppButton from "@/components/common/WhatsAppButton";
-import BackToTop from "@/components/common/BackToTop";
 import SchoolMarquee from "@/components/home/SchoolMarquee";
 export default async function Home() {
   const supabase = await createClient();
@@ -72,9 +70,6 @@ export default async function Home() {
 
       <ScrollProgress />
 
-      <WhatsAppButton />
-
-      <BackToTop />
     </>
   );
 }
