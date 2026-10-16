@@ -9,7 +9,6 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Verify the logged-in user on the server
   const supabase = await createClient();
 
   const {
@@ -17,45 +16,39 @@ export default async function AdminLayout({
     error,
   } = await supabase.auth.getUser();
 
-  // Get authorized admin emails from environment variables
   const adminEmails = (process.env.ADMIN_EMAILS ?? "")
     .split(",")
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean);
 
-  // Redirect users who are not authenticated admins
   if (
     error ||
-    !user ||
-    !user.email ||
+    !user?.email ||
     !adminEmails.includes(user.email.toLowerCase())
   ) {
     redirect("/admin/login");
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-100 dark:bg-gray-950">
-      {/* Sidebar */}
-      <div className="flex w-72 shrink-0 flex-col">
-        <AdminSidebar />
+    <div className="min-h-screen bg-slate-100 dark:bg-gray-950 md:flex">
+      <AdminSidebar />
 
-        {/* Logout */}
-        <div className="border-t border-slate-800 bg-slate-950 p-6">
-          <div className="mb-6 rounded-2xl bg-slate-800 p-4">
-            <p className="text-sm text-gray-400">Logged in as</p>
-            <p className="font-semibold text-white">
-              Administrator
-            </p>
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col pt-16 md:pt-0">
+        <main className="min-w-0 flex-1 overflow-x-auto p-4 sm:p-6 lg:p-10">
+          {children}
+        </main>
+
+        <footer className="border-t border-slate-200 bg-slate-950 p-4 sm:p-6">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="rounded-xl bg-slate-800 p-3 sm:p-4">
+              <p className="text-xs text-gray-400">Logged in as</p>
+              <p className="font-semibold text-white">Administrator</p>
+            </div>
+
+            <LogoutButton />
           </div>
-
-          <LogoutButton />
-        </div>
+        </footer>
       </div>
-
-      {/* Page Content */}
-      <main className="min-w-0 flex-1 overflow-y-auto p-5 sm:p-8 lg:p-10">
-        {children}
-      </main>
     </div>
   );
 }
