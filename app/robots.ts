@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
-      disallow: ["/admin", "/api"],
+      allow: ["/", "/admin/login"],
+      disallow: ["/admin/", "/api/"],
     },
     sitemap: "https://bright-bal-public-school.vercel.app/sitemap.xml",
   };
