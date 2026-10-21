@@ -26,37 +26,48 @@ export default function AdminLoginPage() {
   const [resetLoading, setResetLoading] = useState(false);
 const [successMessage, setSuccessMessage] = useState("");
 
-  async function handleLogin(e: React.FormEvent) {
+
+async function handleLogin(e: React.FormEvent) {
   e.preventDefault();
 
   setLoading(true);
   setErrorMessage("");
-  setSuccessMessage("");
 
   try {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     });
 
     if (error) {
-      console.error("Admin login failed:", error.message);
+      console.error("Supabase login error:", error.message);
       setErrorMessage(
-        "Invalid email or password. Please check your details and try again."
+        error.message.toLowerCase().includes("invalid login credentials")
+          ? "Wrong email or password. Please try again."
+          : error.message
       );
       return;
     }
 
-    window.location.href = "/admin/dashboard";
+    if (!data.user) {
+      setErrorMessage("Login failed. No user session was returned.");
+      return;
+    }
+
+    // Force a fresh request so the server can read the updated auth cookies.
+    window.location.assign("/admin/dashboard");
   } catch (error) {
-    console.error("Login request failed:", error);
+    console.error("Unexpected login error:", error);
     setErrorMessage(
-      "Unable to connect. Please check your internet connection and try again."
+      error instanceof Error
+        ? `Login failed: ${error.message}`
+        : "Unexpected error while logging in. Please try again."
     );
   } finally {
     setLoading(false);
   }
 }
+
 
 async function handleForgotPassword() {
   setErrorMessage("");
