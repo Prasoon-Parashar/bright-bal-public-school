@@ -1,3 +1,4 @@
+
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
@@ -5,8 +6,17 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/login"],
+        allow: ["/", "/admin/login"],
+        disallow: [
+          "/admin/dashboard",
+          "/admin/admissions",
+          "/admin/registered-students",
+          "/admin/enquiries",
+          "/admin/settings",
+          "/admin/gallery",
+          "/admin/notices",
+          "/api/",
+        ],
       },
     ],
     sitemap: "https://bright-bal-public-school.vercel.app/sitemap.xml",
