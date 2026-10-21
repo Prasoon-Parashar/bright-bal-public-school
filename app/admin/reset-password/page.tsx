@@ -1,20 +1,78 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { LockKeyhole, ShieldCheck } from "lucide-react";
 
 export default function ResetPasswordPage() {
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
   const router = useRouter();
+  const recoveryHandled = useRef(false);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [recoveryReady, setRecoveryReady] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    
+
+    async function initializeRecovery() {
+       if (recoveryHandled.current) return;
+  recoveryHandled.current = true;
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (!mounted) return;
+
+        if (error) {
+          setErrorMessage(
+            `Reset link could not be verified: ${error.message}. Request a new reset email.`
+          );
+          return;
+        }
+
+        // Remove the one-time code from the address bar.
+        url.searchParams.delete("code");
+        window.history.replaceState({}, "", url.toString());
+      }
+
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (!mounted) return;
+
+      if (error) {
+        setErrorMessage(`Could not verify recovery session: ${error.message}`);
+        return;
+      }
+
+      if (session) {
+        setRecoveryReady(true);
+      } else {
+        setErrorMessage(
+          "Reset session is missing or expired. Request a new password reset email and open its latest link."
+        );
+      }
+    }
+
+    void initializeRecovery();
+
+    return () => {
+      mounted = false;
+    };
+  }, [supabase]);
 
   async function handleReset(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,14 +92,23 @@ export default function ResetPasswordPage() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password,
-      });
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        setErrorMessage(
+          sessionError?.message ??
+            "Your recovery session has expired. Request a new reset email."
+        );
+        return;
+      }
+
+      const { error } = await supabase.auth.updateUser({ password });
 
       if (error) {
-        setErrorMessage(
-          "Could not update your password. Open the latest reset link from your email and try again."
-        );
+        setErrorMessage(`Password update failed: ${error.message}`);
         return;
       }
 
@@ -56,7 +123,11 @@ export default function ResetPasswordPage() {
       }, 1500);
     } catch (error) {
       console.error("Password update failed:", error);
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -69,9 +140,11 @@ export default function ResetPasswordPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
             <ShieldCheck size={30} />
           </div>
+
           <h1 className="mt-4 text-2xl font-extrabold">
             Reset Password
           </h1>
+
           <p className="mt-2 text-sm text-red-100">
             Set a new password for your admin account.
           </p>
@@ -85,11 +158,13 @@ export default function ResetPasswordPage() {
             >
               New Password
             </label>
+
             <div className="relative">
               <LockKeyhole
                 size={18}
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
               />
+
               <input
                 id="new-password"
                 type="password"
@@ -111,6 +186,7 @@ export default function ResetPasswordPage() {
             >
               Confirm New Password
             </label>
+
             <input
               id="confirm-password"
               type="password"
@@ -127,7 +203,7 @@ export default function ResetPasswordPage() {
           {errorMessage && (
             <p
               role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"
+              className="break-words rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"
             >
               {errorMessage}
             </p>
@@ -144,10 +220,14 @@ export default function ResetPasswordPage() {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-red-600 px-4 py-3.5 font-bold text-white transition hover:bg-red-700 disabled:opacity-60"
+            disabled={loading || !recoveryReady}
+            className="w-full rounded-xl bg-red-600 px-4 py-3.5 font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? "Updating password..." : "Set New Password"}
+            {loading
+              ? "Updating password..."
+              : !recoveryReady
+                ? "Verifying reset link..."
+                : "Set New Password"}
           </button>
         </form>
       </section>
